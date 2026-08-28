@@ -28,15 +28,7 @@
 
         public int? Volume { get; set; }
 
-        public Products(string brand, string model, int pricePerDay, string? type, int? thickness, int? volume)
-        {
-            Brand = brand;
-            Model = model;
-            PricePerDay = pricePerDay;
-            Type = type;
-            Thickness = thickness;
-            Volume = volume;
-        }
+      
     }
 }
 
