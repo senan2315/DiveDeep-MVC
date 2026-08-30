@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<DeepDive11.Models.Products>
+
+<div class="produkt-grid">
+
+    @foreach (var product in Model)
+    {
+        <div class="produkt-kort">
+
+            <h2>@product.Model</h2>
+
+            <p>@product.Brand</p>
+
+            <p>Fra @product.PricePerDay kr</p>
+
+            <button>Lej nu</button>
+
+        </div>
+    }
+
+</div>
