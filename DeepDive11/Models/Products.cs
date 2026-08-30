@@ -3,6 +3,7 @@
     public class Products
     {
         public string Brand { get; set; }
+
         public string Model { get; set; }
         
         public enum Size
@@ -15,7 +16,11 @@
             ExtraLarge
 
         }
+
+        public Size? ProductSize { get; set; }
+
         public int PricePerDay { get; set; }
+
         public string? Type { get; set; }
        
         public enum Gender
@@ -23,6 +28,8 @@
             Male,
             Female
         }
+
+        public Gender? ProductGender { get; set; }
       
         public int? Thickness { get; set; }
 

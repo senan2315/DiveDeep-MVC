@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DeepDive11.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive11.Controllers
 {
@@ -6,7 +7,8 @@ namespace DeepDive11.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var products = ProductsRepository.GetAll();
+            return View(products);
         }
     }
 }
