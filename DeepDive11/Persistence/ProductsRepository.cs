@@ -9,33 +9,40 @@ namespace DeepDive11.Persistence
     {
         private static List<Products> products = new List<Products>
         {
+
+            // BCD
             new Products
             {
                 Brand = "Scubapro",
                 Model = "Navigator Lite BCD",
                 PricePerDay = 125,
+                Image = "NavigatorLiteBCD.webp"
             },
               new Products
             {
                 Brand = "Scubapro",
                 Model = "BCD Glide",
-                PricePerDay = 140
+                PricePerDay = 140,
+                Image = "BCDGlide.webp"
             },
 
             new Products
             {
                 Brand = "Scubapro",
                 Model = "BCD Hydros Pro",
-                PricePerDay = 200
+                PricePerDay = 200,
+                Image = "HydrosPro.webp"
             },
 
             new Products
             {
                 Brand = "Seac",
                 Model = "BCD Modular",
-                PricePerDay = 145
+                PricePerDay = 145,
+                Image = "BCDModular.webp"
             },
 
+            // Dykkerdragter
             new Products
             {
                 Brand = "Scubapro",
@@ -68,6 +75,7 @@ namespace DeepDive11.Persistence
                 Brand = "Waterproof",
                 Model = "W5",
                 Type = "Våddragt",
+                Thickness = 3.5,
                 PricePerDay = 100
             },
 
@@ -90,6 +98,51 @@ namespace DeepDive11.Persistence
 
             new Products
             {
+                Brand = "Waterproof",
+                Model = "D7 Evo",
+                Type = "Tørdragt",
+                PricePerDay = 320
+            },
+
+            new Products
+            {
+                Brand = "Santi",
+                Model = "E.Lite Plus",
+                Type = "Tørdragt",
+                PricePerDay = 350
+            },
+
+            new Products
+            {
+                Brand = "Scubapro",
+                Volume = 5,
+                PricePerDay = 150
+            },
+
+            new Products
+            {
+                Brand = "Scubapro",
+                Volume = 10,
+                PricePerDay = 160
+            },
+
+            new Products
+            {
+                Brand = "Scubapro",
+                Volume = 12,
+                PricePerDay = 170
+            },
+
+            new Products
+            {
+                Brand = "Scubapro",
+                Volume = 15,
+                PricePerDay = 180
+            },
+
+
+            new Products
+            {
                 Brand = "Scubapro",
                 Model = "Ghost",
                 PricePerDay = 50
@@ -104,8 +157,36 @@ namespace DeepDive11.Persistence
 
             new Products
             {
+                Brand = "Scubapro",
+                Model = "Spectra Mini",
+                PricePerDay = 50
+            },
+
+            new Products
+            {
+                Brand = "Scubapro",
+                Model = "Crystal VU",
+                PricePerDay = 75
+            },
+
+            new Products
+            {
                 Brand = "Fourth Element",
                 Model = "Scout Kontrast",
+                PricePerDay = 75
+            },
+
+            new Products
+            {
+                Brand = "Fourth Element",
+                Model = "Scout Enhance",
+                PricePerDay = 75
+            },
+
+            new Products
+            {
+                Brand = "Tusa",
+                Model = "Element",
                 PricePerDay = 75
             },
 
@@ -121,6 +202,34 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "GO Travel",
                 PricePerDay = 50
+            },
+
+            new Products
+            {
+                Brand = "Scubapro",
+                Model = "Seawing Supernova",
+                PricePerDay = 60
+            },
+
+            new Products
+            {
+                Brand = "Seac",
+                Model = "Propulsion",
+                PricePerDay = 50
+            },
+
+            new Products
+            {
+                Brand = "Seac",
+                Model = "ALA",
+                PricePerDay = 50
+            },
+
+            new Products
+            {
+                Brand = "Fourth Element",
+                Model = "Tech",
+                PricePerDay = 75
             },
 
             new Products
@@ -166,6 +275,8 @@ namespace DeepDive11.Persistence
                 productToUpdate.Type = product.Type;
                 productToUpdate.Thickness = product.Thickness;
                 productToUpdate.Volume = product.Volume;
+                productToUpdate.Image = product.Image;
+
             }
         }
     }
