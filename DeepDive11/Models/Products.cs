@@ -31,10 +31,11 @@
 
         public Gender? ProductGender { get; set; }
       
-        public int? Thickness { get; set; }
+        public double? Thickness { get; set; }
 
         public int? Volume { get; set; }
 
+        public string? Image { get; set; }
       
     }
 }
