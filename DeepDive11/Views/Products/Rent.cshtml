@@ -1,0 +1,173 @@
+﻿@model DeepDive11.Models.Products
+
+<div class="container py-5">
+
+    <div class="row">
+
+        <div class="col-md-5">
+
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <img src="~/images/@Model.Image"
+                     class="img-fluid"
+                     alt="@Model.Model" />
+            }
+
+        </div>
+
+        <div class="col-md-7">
+
+            <h1>@Model.Model</h1>
+
+            <p class="text-muted">@Model.Brand</p>
+
+            <h4>@Model.PricePerDay kr. pr. dag</h4>
+
+            <hr />
+
+            @if (Model.Sizes != null && Model.Sizes.Any())
+            {
+                <div class="mb-3">
+                    <label class="form-label">Størrelse</label>
+
+                    <select class="form-select" name="size">
+                        <option value="">Vælg størrelse</option>
+
+                        @foreach (var size in Model.Sizes)
+                        {
+                            <option value="@size">@size</option>
+                        }
+                    </select>
+                </div>
+            }
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Antal
+                </label>
+
+                <input id="quantity"
+                       type="number"
+                       class="form-control"
+                       value="1"
+                       min="1" />
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Fra
+                    </label>
+
+                    <input id="startDate"
+                           type="date"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Til
+                    </label>
+
+                    <input id="endDate"
+                           type="date"
+                           class="form-control" />
+
+                </div>
+
+            </div>
+
+            <div class="card mt-3">
+
+                <div class="card-body">
+
+                    <p>
+                        Pris pr. dag:
+                        <strong>@Model.PricePerDay kr.</strong>
+                    </p>
+
+                    <p>
+                        Lejeperiode:
+                        <strong>
+                            <span id="days">0</span> dage
+                        </strong>
+                    </p>
+
+                    <h4>
+                        Total:
+                        <span id="total">0</span> kr.
+                    </h4>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary btn-lg mt-3">
+                Tilføj til kurv
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        const pricePerDay = @Model.PricePerDay;
+
+        const startDate = document.getElementById("startDate");
+        const endDate = document.getElementById("endDate");
+        const quantity = document.getElementById("quantity");
+
+        const daysText = document.getElementById("days");
+        const totalText = document.getElementById("total");
+
+
+        function calculatePrice() {
+
+            if (!startDate.value || !endDate.value) {
+                daysText.textContent = "0";
+                totalText.textContent = "0";
+                return;
+            }
+
+            const start = new Date(startDate.value);
+            const end = new Date(endDate.value);
+
+            const difference = end - start;
+
+            const days =
+                Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+            if (days <= 0) {
+                daysText.textContent = "0";
+                totalText.textContent = "0";
+                return;
+            }
+
+            const amount = parseInt(quantity.value) || 1;
+
+            const total =
+                days * pricePerDay * amount;
+
+            daysText.textContent = days;
+            totalText.textContent = total;
+        }
+
+
+        startDate.addEventListener("change", calculatePrice);
+
+        endDate.addEventListener("change", calculatePrice);
+
+        quantity.addEventListener("input", calculatePrice);
+
+    </script>
+
+}

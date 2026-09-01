@@ -36,6 +36,12 @@
         public int? Volume { get; set; }
 
         public string? Image { get; set; }
+
+        public string Category { get; set; }
+
+        public int ProductId { get; set; }
+
+        public List<string>? Sizes { get; set; }
     }
 }
 
