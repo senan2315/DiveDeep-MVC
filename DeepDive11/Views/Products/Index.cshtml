@@ -1,43 +1,103 @@
-﻿@model List<DeepDive11.Models.Products>
-
-<div class="container py-5">
+﻿<div class="container py-5">
 
     <h1 class="text-center mb-5">Dykkerudstyr</h1>
 
     <div class="row g-4">
 
-        @foreach (var product in Model)
-        {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-md-4">
+            <a asp-controller="Products"
+               asp-action="Category"
+               asp-route-id="BCD"
+               class="text-decoration-none">
 
-                <div class="card h-100 shadow-sm">
+                <div class="card category-card text-white">
+                    <img src="~/images/BCDGlide.webp"
+                         class="card-img"
+                         alt="BCD">
 
-                    <img src="~/images/@product.Image"
-                         class="card-img-top"
-                         alt="@product.Model" />
-
-                    <div class="card-body text-center">
-
-                        <h5 class="card-title">@product.Model</h5>
-
-                        <p class="card-text text-muted">
-                            @product.Brand
-                        </p>
-
-                        <p class="fw-bold">
-                            Fra @product.PricePerDay kr
-                        </p>
-
-                        <button class="btn btn-primary">
-                            Lej nu
-                        </button>
-
+                    <div class="card-img-overlay d-flex align-items-end">
+                        <h3 class="card-title">BCD</h3>
                     </div>
-
                 </div>
 
-            </div>
-        }
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="Products"
+               asp-action="Category"
+               asp-route-id="Dykkerdragter"
+               class="text-decoration-none">
+
+                <div class="card text-center shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Dykkerdragter</h3>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="Products"
+               asp-action="Category"
+               asp-route-id="Tanke"
+               class="text-decoration-none">
+
+                <div class="card text-center shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Tanke</h3>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="Products"
+               asp-action="Category"
+               asp-route-id="Regulatorsæt"
+               class="text-decoration-none">
+
+                <div class="card text-center shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Regulatorsæt</h3>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="Products"
+               asp-action="Category"
+               asp-route-id="Maske/snorkel"
+               class="text-decoration-none">
+
+                <div class="card text-center shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Maske / snorkel</h3>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a asp-controller="Products"
+               asp-action="Category"
+               asp-route-id="Finner"
+               class="text-decoration-none">
+
+                <div class="card text-center shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title">Finner</h3>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+
 
     </div>
 
