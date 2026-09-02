@@ -1,5 +1,6 @@
 ﻿using DeepDive11.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using DeepDive11.ViewModels;
 
 namespace DeepDive11.Controllers
 {
@@ -31,8 +32,14 @@ namespace DeepDive11.Controllers
             {
                 return NotFound();
             }
+            
+            var rentViewModel = new RentViewModel
+            {
+                Product = product,
+                Quantity = 1
+            };
 
-            return View(product);
+            return View(rentViewModel);
         }
         // Implementer logikken for at leje produktet her, f.eks. opdatering af databasen, betaling osv.
     }
