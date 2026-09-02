@@ -1,4 +1,4 @@
-﻿@model DeepDive11.Models.Products
+﻿@model RentViewModel
 
 <div class="container py-5">
 
@@ -6,26 +6,26 @@
 
         <div class="col-md-5">
 
-            @if (!string.IsNullOrEmpty(Model.Image))
+            @if (!string.IsNullOrEmpty(Model.Product.Image))
             {
-                <img src="~/images/@Model.Image"
+                <img src="~/images/@Model.Product.Image"
                      class="img-fluid"
-                     alt="@Model.Model" />
+                     alt="@Model.Product.Model" />
             }
-
+            
         </div>
 
         <div class="col-md-7">
 
-            <h1>@Model.Model</h1>
+            <h1>@Model.Product.Model</h1>
 
-            <p class="text-muted">@Model.Brand</p>
+            <p class="text-muted">@Model.Product.Brand</p>
 
-            <h4>@Model.PricePerDay kr. pr. dag</h4>
+            <h4>@Model.Product.PricePerDay kr. pr. dag</h4>
 
             <hr />
 
-            @if (Model.Sizes != null && Model.Sizes.Any())
+            @if (Model.Product.Sizes != null && Model.Product.Sizes.Any())
             {
                 <div class="mb-3">
                     <label class="form-label">Størrelse</label>
@@ -33,7 +33,7 @@
                     <select class="form-select" name="size">
                         <option value="">Vælg størrelse</option>
 
-                        @foreach (var size in Model.Sizes)
+                        @foreach (var size in Model.Product.Sizes)
                         {
                             <option value="@size">@size</option>
                         }
@@ -87,7 +87,7 @@
 
                     <p>
                         Pris pr. dag:
-                        <strong>@Model.PricePerDay kr.</strong>
+                        <strong>@Model.Product.PricePerDay kr.</strong>
                     </p>
 
                     <p>
@@ -120,7 +120,7 @@
 
     <script>
 
-        const pricePerDay = @Model.PricePerDay;
+        const pricePerDay = @Model.Product.PricePerDay;
 
         const startDate = document.getElementById("startDate");
         const endDate = document.getElementById("endDate");
