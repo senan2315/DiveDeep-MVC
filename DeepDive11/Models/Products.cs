@@ -42,6 +42,14 @@
         public int ProductId { get; set; }
 
         public List<string>? Sizes { get; set; }
+
+        public string? Description { get; set; }
+
+        public string? FirstStage { get; set; }
+        public string? SecondStage { get; set; }
+        public string? Octopus { get; set; }
+
+        public List<string>? IncludedItems { get; set; } // komplette sæt
     }
 }
 
