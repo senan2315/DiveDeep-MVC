@@ -1,9 +1,95 @@
 ﻿@using DeepDive11.Models
 @using DeepDive11.Persistence
-@model List<Products>
+@model List<RentViewModel>
     
-@section Title {
-    <div class="d-flex align-items-center gap-3 my-3">
-        <h1 class="mb-0">Kurv</h1>
+
+<div class="container py-5">
+
+    <h1 class="mb-4">Kurv</h1>
+
+    <div class="row g-4">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+
+                    <h3 class="mb-4">Indkøbskurv</h3>
+
+                    @if (Model.Count == 0)
+                    {
+                        <p>Din kurv er tom.</p>
+                    }
+                    else
+                    {
+                        @foreach (var rent in Model)
+                        {
+                            var days = (rent.EndDate - rent.StartDate).Days;
+
+                            <div class="bg-light rounded p-3 mb-3">
+
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                    <div>
+                                        <strong>@rent.Product.Model</strong>
+
+                                        @if (!string.IsNullOrEmpty(rent.SelectedSize))
+                                        {
+                                            <span class="text-muted">
+                                                - Str. @rent.SelectedSize
+                                            </span>
+                                        }
+                                    </div>
+
+                                    <div>
+                                        <strong>@rent.TotalPrice kr.</strong>
+                                    </div>
+
+                                    <div class="text-muted">
+                                        @days dage
+                                    </div>
+
+                                </div>
+
+                                <div class="mt-2 small text-muted">
+                                    @rent.StartDate.ToString("dd-MM-yyyy")
+                                    -
+                                    @rent.EndDate.ToString("dd-MM-yyyy")
+                                    · Antal: @rent.Quantity
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-5">
+
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+
+                    <h3 class="mb-4">Oversigt</h3>
+
+                    <p>Pris for elementer:</p>
+
+                    <h2 class="mb-4">
+                        @Model.Sum(x => x.TotalPrice) kr.
+                    </h2>
+
+                    <button class="btn btn-primary w-100 btn-lg">
+                        Lej nu
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
-}
+
+</div>

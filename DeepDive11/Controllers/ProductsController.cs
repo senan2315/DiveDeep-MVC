@@ -36,7 +36,9 @@ namespace DeepDive11.Controllers
             var rentViewModel = new RentViewModel
             {
                 Product = product,
-                Quantity = 1
+                Quantity = 1,
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today.AddDays(1)
             };
 
             return View(rentViewModel);

@@ -1,10 +1,12 @@
 ﻿using DeepDive11.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DeepDive11.ViewModels
 {
     public class RentViewModel
     {
-        public Products Product { get; set; }
+        [ValidateNever]
+        public Products? Product { get; set; }
 
         public string? SelectedSize { get; set; }
 

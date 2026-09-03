@@ -24,91 +24,119 @@
             <h4>@Model.Product.PricePerDay kr. pr. dag</h4>
 
             <hr />
+      
+            <form asp-controller="CheckOut"
+                  asp-action="AddToCart"
+                  method="post">
 
-            @if (Model.Product.Sizes != null && Model.Product.Sizes.Any())
-            {
+                <input asp-for="Product.ProductId" type="hidden" />
+
+                @if (Model.Product.Sizes != null && Model.Product.Sizes.Any())
+                {
+                    <div class="mb-3">
+
+                        <label asp-for="SelectedSize" class="form-label">
+                            Størrelse
+                        </label>
+
+                        <select asp-for="SelectedSize" class="form-select">
+
+                            <option value="">Vælg størrelse</option>
+
+                            @foreach (var size in Model.Product.Sizes)
+                            {
+                                <option value="@size">@size</option>
+                            }
+
+                        </select>
+
+                    </div>
+                }
+
                 <div class="mb-3">
-                    <label class="form-label">Størrelse</label>
 
-                    <select class="form-select" name="size">
-                        <option value="">Vælg størrelse</option>
-
-                        @foreach (var size in Model.Product.Sizes)
-                        {
-                            <option value="@size">@size</option>
-                        }
-                    </select>
-                </div>
-            }
-
-            <div class="mb-3">
-                <label class="form-label">
-                    Antal
-                </label>
-
-                <input id="quantity"
-                       type="number"
-                       class="form-control"
-                       value="1"
-                       min="1" />
-            </div>
-
-            <div class="row">
-
-                <div class="col-md-6 mb-3">
-
-                    <label class="form-label">
-                        Fra
+                    <label asp-for="Quantity" class="form-label">
+                        Antal
                     </label>
 
-                    <input id="startDate"
-                           type="date"
-                           class="form-control" />
+                    <input asp-for="Quantity"
+                           id="quantity"
+                           type="number"
+                           class="form-control"
+                           min="1" />
 
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="row">
 
-                    <label class="form-label">
-                        Til
-                    </label>
+                    <div class="col-md-6 mb-3">
 
-                    <input id="endDate"
-                           type="date"
-                           class="form-control" />
+                        <label asp-for="StartDate" class="form-label">
+                            Fra
+                        </label>
 
-                </div>
+                        <input asp-for="StartDate"
+                               id="startDate"
+                               type="date"
+                               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                               class="form-control" />
 
-            </div>
+                    </div>
 
-            <div class="card mt-3">
+                    <div class="col-md-6 mb-3">
 
-                <div class="card-body">
+                        <label asp-for="EndDate" class="form-label">
+                            Til
+                        </label>
 
-                    <p>
-                        Pris pr. dag:
-                        <strong>@Model.Product.PricePerDay kr.</strong>
-                    </p>
+                        <input asp-for="EndDate"
+                               id="endDate"
+                               type="date"
+                               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                               class="form-control" />
 
-                    <p>
-                        Lejeperiode:
-                        <strong>
-                            <span id="days">0</span> dage
-                        </strong>
-                    </p>
+                        <span asp-validation-for="EndDate"
+                              class="text-danger"></span>
 
-                    <h4>
-                        Total:
-                        <span id="total">0</span> kr.
-                    </h4>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="card mt-3">
 
-            <button class="btn btn-primary btn-lg mt-3">
-                Tilføj til kurv
-            </button>
+                    <div class="card-body">
+
+                        <p>
+                            Pris pr. dag:
+                            <strong>@Model.Product.PricePerDay kr.</strong>
+                        </p>
+
+                        <p>
+                            Lejeperiode:
+                            <strong>
+                                <span id="days">0</span> dage
+                            </strong>
+                        </p>
+
+                        <h4>
+                            Total:
+                            <span id="total">0</span> kr.
+                        </h4>
+
+                    </div>
+
+                </div>
+
+                <input asp-for="TotalPrice"
+                       id="totalPrice"
+                       type="hidden" />
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg mt-3">
+                    Tilføj til kurv
+                </button>
+
+            </form>
 
         </div>
 
@@ -135,6 +163,7 @@
             if (!startDate.value || !endDate.value) {
                 daysText.textContent = "0";
                 totalText.textContent = "0";
+                document.getElementById("totalPrice").value = "0";
                 return;
             }
 
@@ -149,6 +178,7 @@
             if (days <= 0) {
                 daysText.textContent = "0";
                 totalText.textContent = "0";
+                document.getElementById("totalPrice").value = "0";
                 return;
             }
 
@@ -159,14 +189,26 @@
 
             daysText.textContent = days;
             totalText.textContent = total;
+            document.getElementById("totalPrice").value = total;
         }
 
 
-        startDate.addEventListener("change", calculatePrice);
-
+       
         endDate.addEventListener("change", calculatePrice);
 
         quantity.addEventListener("input", calculatePrice);
+
+        startDate.addEventListener("change", function() {
+
+            endDate.min = startDate.value;
+
+            if (endDate.value && endDate.value < startDate.value) {
+                endDate.value = startDate.value;
+            }
+           
+
+            calculatePrice();
+        });
 
     </script>
 
