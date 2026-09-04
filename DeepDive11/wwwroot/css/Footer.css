@@ -1,0 +1,29 @@
+﻿footer {
+    background-color: #004e7c;
+    color: white;
+    padding: 0px 0;
+}
+
+.DeepDive-Footer {
+    display: flex;
+    gap: 2.5rem; /* spacing between the two columns */
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make footer responsive: stack columns on small screens */
+@media (max-width: 576px) {
+    .DeepDive-Footer {
+        flex-direction: column;
+        gap: 0rem;
+    }
+}
+footer p {
+    margin: 0 0 0.25rem; 
+    line-height: 1.25;
+}
