@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using DeepDive11.Models
+@using DeepDive11.Controllers
+@model LogIn
+
 @{
+	// <link rel="stylesheet" href="~/css/Login.css">
+	// <div class="loginForm2">
+	// 	<div class="loginBox">
+	// 		<form asp-action="Login" method="post" class="loginForm">
+	// 			<h2 class="login">Login</h2>
+
+	// 			<div class="emailPassword">
+	// 				<label for="username" class="usernameLabel">Brugernavn:</label>
+	// 				<input asp-for="Username" placeholder="Indtast brugernavn" required />
+	// 			</div>
+
+	// 			<div class="emailPassword">
+	// 				<label for="password" class="passwordLabel">Kodeord:</label>
+	// 				<input asp-for="Password" type="password" placeholder="Indtast kodeord" required />
+	// 			</div>
+
+	// 			<input type="submit" value="Login" class="loginButton">
+	// 		</form>
+	// 	</div>
+	// </div>
+	<link rel="stylesheet" href="~/css/Login.css">
+
+	<div class="accountContainer">
+		<div class="accountBox">
+
+			<h2 class="text-center mb-4">Login</h2>
+
+			<form asp-action="Login" method="post">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+				<div class="mb-3">
+					<label asp-for="Email" class="form-label"></label>
+					<input asp-for="Email" class="form-control" placeholder="Indtast email" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Password" class="form-label"></label>
+					<input asp-for="Password" class="form-control" placeholder="Indtast kodeord" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+
+				<input type="submit" value="Login" class="btn btn-success w-50 p-2 d-block mx-auto">
+
+				<p class="text-center mt-2">
+				Har du ikke en konto? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Opret en konto</a>
+				</p>
+		
+			</form>
+
+		</div>
+	</div>
 }
