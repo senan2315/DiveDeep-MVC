@@ -63,6 +63,7 @@ namespace DeepDive11.Persistence
                 Type = "Våddragt",
                 Thickness = 3,
                 PricePerDay = 100,
+                Image = "Våddragt.jpeg",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -75,6 +76,7 @@ namespace DeepDive11.Persistence
                 Type = "Våddragt",
                 Thickness = 5,
                 PricePerDay = 100,
+                Image = "Våddragt.jpeg",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -87,6 +89,7 @@ namespace DeepDive11.Persistence
                 Type = "Våddragt",
                 Thickness = 7,
                 PricePerDay = 100,
+                Image = "Våddragt.jpeg",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -99,6 +102,7 @@ namespace DeepDive11.Persistence
                 Type = "Våddragt",
                 Thickness = 3.5,
                 PricePerDay = 100,
+                Image = "Våddragt.jpeg",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -111,6 +115,7 @@ namespace DeepDive11.Persistence
                 Type = "Våddragt",
                 Thickness = 5,
                 PricePerDay = 120,
+                Image = "Våddragt.jpeg",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -122,6 +127,7 @@ namespace DeepDive11.Persistence
                 Model = "Exodry 4.0",
                 Type = "Tørdragt",
                 PricePerDay = 300,
+                Image = "Tørdragt.webp",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -133,6 +139,7 @@ namespace DeepDive11.Persistence
                 Model = "D7 Evo",
                 Type = "Tørdragt",
                 PricePerDay = 320,
+                Image = "Tørdragt.webp",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -144,6 +151,7 @@ namespace DeepDive11.Persistence
                 Model = "E.Lite Plus",
                 Type = "Tørdragt",
                 PricePerDay = 350,
+                Image = "Tørdragt.webp",
                 Category = "Dykkerdragter",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -152,8 +160,10 @@ namespace DeepDive11.Persistence
             {
                 ProductId = 13,
                 Brand = "Scubapro",
+                Model="Tank 5 liter",
                 Volume = 5,
                 PricePerDay = 150,
+                Image = "Tank.jpg",
                 Category = "Tanke"
 
             },
@@ -162,8 +172,10 @@ namespace DeepDive11.Persistence
             {
                 ProductId = 14,
                 Brand = "Scubapro",
+                Model = "Tank 10 liter",
                 Volume = 10,
                 PricePerDay = 160,
+                Image = "Tank.jpg",
                 Category = "Tanke"
             },
 
@@ -171,8 +183,10 @@ namespace DeepDive11.Persistence
             {
                 ProductId = 15,
                 Brand = "Scubapro",
+                Model = "Tank 12 liter",
                 Volume = 12,
                 PricePerDay = 170,
+                Image = "Tank.jpg",
                 Category = "Tanke"
             },
 
@@ -180,8 +194,10 @@ namespace DeepDive11.Persistence
             {
                 ProductId = 16,
                 Brand = "Scubapro",
+                Model = "Tank 15 liter",
                 Volume = 15,
                 PricePerDay = 180,
+                Image = "Tank.jpg",
                 Category = "Tanke"
             },
 
@@ -192,7 +208,8 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "Ghost",
                 PricePerDay = 50,
-                Category = "Maske/Snorkel"
+                Image = "GhostMaske.jpg",
+                Category = "Maske og Snorkel"
             },
 
             new Products
@@ -201,7 +218,8 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "D-Mask",
                 PricePerDay = 60,
-                Category = "Maske/Snorkel"
+                Image = "DMask.jpg",
+                Category = "Maske og Snorkel"
             },
 
             new Products
@@ -210,7 +228,8 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "Spectra Mini",
                 PricePerDay = 50,
-                Category = "Maske/Snorkel"
+                Image = "SpectraMini.jpg",
+                Category = "Maske ogSnorkel"
             },
 
             new Products
@@ -219,7 +238,8 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "Crystal VU",
                 PricePerDay = 75,
-                Category = "Maske/Snorkel"
+                Image = "CrystalVU.jpg",
+                Category = "Maske og Snorkel"
             },
 
             new Products
@@ -228,7 +248,8 @@ namespace DeepDive11.Persistence
                 Brand = "Fourth Element",
                 Model = "Scout Kontrast",
                 PricePerDay = 75,
-                Category = "Maske/Snorkel"
+                Image = "ScoutKontrast.jpg",
+                Category = "Maske og Snorkel"
             },
 
             new Products
@@ -237,7 +258,8 @@ namespace DeepDive11.Persistence
                 Brand = "Fourth Element",
                 Model = "Scout Enhance",
                 PricePerDay = 75,
-                Category = "Maske/Snorkel"
+                Image = "ScoutEnhance.webp",
+                Category = "Maske og Snorkel"
             },
 
             new Products
@@ -246,7 +268,8 @@ namespace DeepDive11.Persistence
                 Brand = "Tusa",
                 Model = "Element",
                 PricePerDay = 75,
-                Category = "Maske/Snorkel"
+                Image = "TUSA.jpg",
+                Category = "Maske og Snorkel"
             },
 
             new Products
@@ -317,7 +340,80 @@ namespace DeepDive11.Persistence
                 PricePerDay = 80,
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
-            }
+            },
+
+            new Products
+            {
+                ProductId = 31,
+                Brand = "Scubapro",
+                FirstStage = "MK25EVO",
+                SecondStage = "S600",
+                Octopus = "R105",
+                PricePerDay = 125,
+                Image = "RegulatorSæt31.webp",
+                Category = "Regulatorsæt"
+            },
+
+            new Products
+            {
+                ProductId = 32,
+                Brand = "Scubapro",
+                FirstStage = "MK17EVO",
+                SecondStage = "C370",
+                Octopus = "R095",
+                PricePerDay = 100,
+                Image = "RegulatorSæt32.jpg",
+                Category = "Regulatorsæt"
+            },
+
+            new Products
+            {
+                ProductId = 33,
+                Brand = "Scubapro",
+                FirstStage = "MK25EVO BT",
+                SecondStage = "A700 Carbon BT",
+                Octopus = "S270",
+                PricePerDay = 150,
+                Image = "RegulatorSæt33.webp",
+                Category = "Regulatorsæt"
+            },
+           
+            new Products
+            {
+                ProductId = 34,
+                Brand = "Dive Deep",
+                Model = "Komplet dykkersæt",
+                PricePerDay = 760,
+                Image = "DykkerSæt.jpg",
+                Category = "Komplette sæt",
+                IncludedItems = new List<string>
+                {
+                   "BCD",
+                   "Dykkerdragt",
+                   "Regulatorsæt",
+                   "Tank",
+                   "Finner",
+                   "Maske",
+                   "Snorkel"
+                }
+            },
+
+            new Products
+            {
+                ProductId = 35,
+                Brand = "Dive Deep",
+                Model = "Komplet snorkelsæt",
+                PricePerDay = 650,
+                Image = "snorkelsæt.webp",
+                Category = "Komplette sæt",
+                IncludedItems = new List<string>
+                {
+                   "Maske",
+                   "Snorkel",
+                   "Finner"
+                }
+            },
+
         };
 
         public static List<Products> GetAll()

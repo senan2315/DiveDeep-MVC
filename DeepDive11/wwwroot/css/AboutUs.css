@@ -1,0 +1,79 @@
+﻿.OmOsDiv {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 25px;
+}
+
+.HvemErDD {
+    color: red;
+    text-align: justify;
+    margin-top: 40px;
+    font-size: 18px;
+}
+
+.Label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    position: absolute;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.input {
+    width: 100%;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 250px;
+    height: 35px;
+    padding: 8px, 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+.contact-wrapperText {
+    max-width: 400px;
+    padding: 20px 65px;
+    background: #d6d4d4;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0,1);
+    margin-left: 800px;
+}
+
+.send-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.send-brn:hover {
+    background: #0069d9;
+}
+
+.SendEmailLabel {
+    font-size: 30px;
+}
+
+textarea {
+    min-height: 120px;
+    min-width: 200px;
+}
+
+.DivingImage {
+    position: absolute;
+    width: 740px;
+    margin-top: px;
+    border-radius: 10px;
+    margin-left: 50px;
+}
