@@ -6,7 +6,7 @@
 
 .DeepDive-Footer {
     display: flex;
-    gap: 2.5rem; /* spacing between the two columns */
+    gap: 10.5rem; /* spacing between the two columns */
     align-items: flex-start;
     flex-wrap: wrap;
 }
@@ -14,6 +14,7 @@
 .footer-section {
     display: flex;
     flex-direction: column;
+    font-size: 20px;
 }
 
 /* Make footer responsive: stack columns on small screens */
@@ -27,3 +28,15 @@ footer p {
     margin: 0 0 0.25rem; 
     line-height: 1.25;
 }
+.FooterLink {
+}
+footer a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
+}
+
+    footer a:hover, footer a:focus {
+        text-decoration: underline;
+    }
