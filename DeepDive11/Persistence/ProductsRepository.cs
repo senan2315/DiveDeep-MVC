@@ -278,6 +278,7 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "Jet Fin",
                 PricePerDay = 50,
+                Image = "JetFin.webp",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -288,6 +289,7 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "GO Travel",
                 PricePerDay = 50,
+                Image = "GOTravel.webp",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -298,6 +300,7 @@ namespace DeepDive11.Persistence
                 Brand = "Scubapro",
                 Model = "Seawing Supernova",
                 PricePerDay = 60,
+                Image = "SuperNova.webp",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -308,6 +311,7 @@ namespace DeepDive11.Persistence
                 Brand = "Seac",
                 Model = "Propulsion",
                 PricePerDay = 50,
+                Image = "Propulsion.webp",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -318,6 +322,7 @@ namespace DeepDive11.Persistence
                 Brand = "Seac",
                 Model = "ALA",
                 PricePerDay = 50,
+                Image = "ALA.webp",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -328,6 +333,7 @@ namespace DeepDive11.Persistence
                 Brand = "Fourth Element",
                 Model = "Tech",
                 PricePerDay = 75,
+                Image = "Tech",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
@@ -338,6 +344,7 @@ namespace DeepDive11.Persistence
                 Brand = "Fourth Element",
                 Model = "Rec Fin",
                 PricePerDay = 80,
+                Image = "RecFin.jpg",
                 Category = "Finner",
                 Sizes = new List<string> { "XS", "S", "M", "L", "XL" }
             },
