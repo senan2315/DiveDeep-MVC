@@ -6,7 +6,7 @@
 
         <div class="col-md-5">
 
-            @if (!string.IsNullOrEmpty(Model.Product.Image))
+            @if (!string.IsNullOrEmpty(Model.Product!.Image))
             {
                 <img src="~/images/@Model.Product.Image"
                      class="img-fluid"
@@ -50,6 +50,9 @@
 
                         </select>
 
+                        <span asp-validation-for="SelectedSize"
+                              class="text-danger"></span>
+
                     </div>
                 }
 
@@ -80,6 +83,9 @@
                                type="date"
                                min="@DateTime.Today.ToString("yyyy-MM-dd")"
                                class="form-control" />
+
+                        <span asp-validation-for="StartDate"
+                              class="text-danger"></span>
 
                     </div>
 
