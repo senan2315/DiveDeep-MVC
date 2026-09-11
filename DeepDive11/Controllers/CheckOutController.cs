@@ -7,6 +7,11 @@ namespace DeepDive11.Controllers
 {
     public class CheckOutController : Controller
     {
+        private readonly IProductsRepository _productsRepository;
+        public CheckOutController(IProductsRepository productsRepository)
+        {
+            _productsRepository = productsRepository;
+        }
         private static List<RentViewModel> cart = new List<RentViewModel>();
 
         public IActionResult Index()
@@ -17,7 +22,7 @@ namespace DeepDive11.Controllers
         [HttpPost]
         public IActionResult AddToCart(RentViewModel rentViewModel)
         {
-            var product = ProductsRepository
+            var product = _productsRepository
                 .GetById(rentViewModel.Product!.ProductId);
 
             if (product == null)

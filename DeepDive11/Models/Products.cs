@@ -4,7 +4,7 @@
     {
         public string Brand { get; set; }
 
-        public string Model { get; set; }
+        public string? Model { get; set; }
         
         public enum Size
         {
@@ -39,6 +39,7 @@
 
         public string Category { get; set; }
 
+
         public int ProductId { get; set; }
 
         public List<string>? Sizes { get; set; }
@@ -50,6 +51,7 @@
         public string? Octopus { get; set; }
 
         public List<string>? IncludedItems { get; set; } // komplette sæt
+        public List<BookingProduct> BookingProducts { get; set; } = new();
     }
 }
 
