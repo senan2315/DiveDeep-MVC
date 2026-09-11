@@ -16,39 +16,72 @@ namespace DeepDive11.Controllers
 
         [HttpPost]
         public IActionResult AddToCart(RentViewModel rentViewModel)
-        {            
-                var product = ProductsRepository
-                    .GetById(rentViewModel.Product!.ProductId);
+        {
+            var product = ProductsRepository
+                .GetById(rentViewModel.Product!.ProductId);
 
-                if (product == null)
-                {
-                    return NotFound();
-                }
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-                if (rentViewModel.EndDate < rentViewModel.StartDate)
-                {
-                    ModelState.AddModelError(
-                        "EndDate",
-                        "Slutdato skal være samme dag eller senere end startdato."
-                    );
-                }
+            // Størrelse skal vælges, hvis produktet har størrelser
+            if (product.Sizes != null &&
+                product.Sizes.Any() &&
+                string.IsNullOrEmpty(rentViewModel.SelectedSize))
+            {
+                ModelState.AddModelError(
+                    "SelectedSize",
+                    "Du skal vælge en størrelse."
+                );
+            }
 
-                if (!ModelState.IsValid)
-                {
-                    rentViewModel.Product = product;
+            // Startdato må ikke være i fortiden
+            if (rentViewModel.StartDate.HasValue &&
+                rentViewModel.StartDate.Value.Date < DateTime.Today)
+            {
+                ModelState.AddModelError(
+                    "StartDate",
+                    "Startdato må ikke være i fortiden."
+                );
+            }
 
-                    return View(
-                        "~/Views/Products/Rent.cshtml",
-                        rentViewModel
-                    );
-                }
+            // Slutdato skal være senere end startdato
+            if (rentViewModel.StartDate.HasValue &&
+                rentViewModel.EndDate.HasValue &&
+                rentViewModel.EndDate.Value.Date <= rentViewModel.StartDate.Value.Date)
+            {
+                ModelState.AddModelError(
+                    "EndDate",
+                    "Slutdato skal være senere end startdato."
+                );
+            }
 
+            if (!ModelState.IsValid)
+            {
                 rentViewModel.Product = product;
 
-                cart.Add(rentViewModel);
-
-                return RedirectToAction("Index");
+                return View(
+                    "~/Views/Products/Rent.cshtml",
+                    rentViewModel
+                );
             }
+
+            rentViewModel.Product = product;
+
+            var days =
+                (rentViewModel.EndDate!.Value.Date -
+                 rentViewModel.StartDate!.Value.Date).Days;
+
+            rentViewModel.TotalPrice =
+                days *
+                product.PricePerDay *
+                rentViewModel.Quantity;
+
+            cart.Add(rentViewModel);
+
+            return RedirectToAction("Index");
+        }
         
     }
 }

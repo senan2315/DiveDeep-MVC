@@ -24,14 +24,14 @@
                     {
                         @foreach (var rent in Model)
                         {
-                            var days = (rent.EndDate - rent.StartDate).Days;
+                            var days = (rent.EndDate!.Value - rent.StartDate!.Value).Days;
 
                             <div class="bg-light rounded p-3 mb-3">
 
                                 <div class="d-flex justify-content-between align-items-center">
 
                                     <div>
-                                        <strong>@rent.Product.Model</strong>
+                                        <strong>@rent.Product!.Model</strong>
 
                                         @if (!string.IsNullOrEmpty(rent.SelectedSize))
                                         {
@@ -52,10 +52,10 @@
                                 </div>
 
                                 <div class="mt-2 small text-muted">
-                                    @rent.StartDate.ToString("dd-MM-yyyy")
+                                    @rent.StartDate.Value.ToString("dd-MM-yyyy")
                                     -
-                                    @rent.EndDate.ToString("dd-MM-yyyy")
-                                    · Antal: @rent.Quantity
+                                    @rent.EndDate.Value.ToString("dd-MM-yyyy")
+                                   
                                 </div>
 
                             </div>
