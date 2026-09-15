@@ -8,5 +8,9 @@ namespace DeepDive11.Controllers
         {
             return View();
         }
+        public IActionResult Book()
+        {
+            return View();
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace DeepDive11.Persistence
         }
         public void Add(Booking booking)
         {
-            throw new NotImplementedException();
+            _context._bookings.Add(booking);
+            _context.SaveChanges();
         }
 
         public void Delete(int bookingId)

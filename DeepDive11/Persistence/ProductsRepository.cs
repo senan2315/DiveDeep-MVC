@@ -16,7 +16,8 @@ namespace DeepDive11.Persistence
         }
         public void Add(Products products)
         {
-            throw new NotImplementedException();
+
+            _context._products.Add(products);
         }
 
         public void Delete(int productId)
