@@ -1,0 +1,110 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Opret bruger";
+}
+
+<div class="d-flex justify-content-center">
+    <div style="width: 100%; max-width: 360px;">
+
+        <h3 class="mb-3">@ViewData["Title"]</h3>
+
+        <form id="registerForm"
+              asp-route-returnUrl="@Model.ReturnUrl"
+              method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-2"
+                 role="alert">
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Input.Name"
+                       class="form-label">
+                    Navn
+                </label>
+
+                <input asp-for="Input.Name"
+                       class="form-control form-control-sm"
+                       autocomplete="name" />
+
+                <span asp-validation-for="Input.Name"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Input.PhoneNumber"
+                       class="form-label">
+                    Telefonnummer
+                </label>
+
+                <input asp-for="Input.PhoneNumber"
+                       class="form-control form-control-sm"
+                       autocomplete="tel" />
+
+                <span asp-validation-for="Input.PhoneNumber"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Input.Email"
+                       class="form-label">
+                    Email
+                </label>
+
+                <input asp-for="Input.Email"
+                       class="form-control form-control-sm"
+                       autocomplete="email"
+                       placeholder="navn@email.dk" />
+
+                <span asp-validation-for="Input.Email"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Input.Password"
+                       class="form-label">
+                    Adgangskode
+                </label>
+
+                <input asp-for="Input.Password"
+                       class="form-control form-control-sm"
+                       autocomplete="new-password" />
+
+                <span asp-validation-for="Input.Password"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Input.ConfirmPassword"
+                       class="form-label">
+                    Bekræft adgangskode
+                </label>
+
+                <input asp-for="Input.ConfirmPassword"
+                       class="form-control form-control-sm"
+                       autocomplete="new-password" />
+
+                <span asp-validation-for="Input.ConfirmPassword"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <button id="registerSubmit"
+                    type="submit"
+                    class="btn btn-primary w-100">
+                Opret bruger
+            </button>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
