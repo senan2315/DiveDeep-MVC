@@ -1,3 +1,7 @@
+using DeepDive11.Data;
+using DeepDive11.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 namespace DeepDive11
 {
     public class Program
@@ -5,9 +9,16 @@ namespace DeepDive11
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<DeepDiveContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 
             var app = builder.Build();
 

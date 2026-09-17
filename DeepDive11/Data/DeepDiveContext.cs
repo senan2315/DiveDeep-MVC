@@ -1,74 +1,55 @@
-﻿using DeepDive11.Models;
-using DeepDive11.Controllers;
-using DeepDive11.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using DeepDive11.Models;
 
-
-
-namespace DeepDive11.Persistence
+namespace DeepDive11.Data
 {
-    public class ProductsRepository : IProductsRepository
+    public class DeepDiveContext : DbContext
     {
-        private readonly DeepDiveContext _context;
-        public ProductsRepository(DeepDiveContext deepDiveContext)
+        public DbSet<Products> _products { get; set; }
+        public DbSet<Booking> _bookings { get; set; }
+        public DbSet<BookingProduct> _bookingProducts { get; set; }
+
+        public DeepDiveContext(DbContextOptions<DeepDiveContext> dbContextOptions) : base(dbContextOptions)
         {
-            _context = deepDiveContext;
         }
-        public void Add(Products products)
+        protected override void OnModelCreating(ModelBuilder modelBuilder) //Many to many relation hvor Et product kan være del af mange bookings.
         {
+            modelBuilder.Entity<BookingProduct>()
+                .HasKey(bp => new { bp.BookingId, bp.ProductId });
 
-            _context._products.Add(products);
-        }
+            modelBuilder.Entity<BookingProduct>()
+                .HasOne(bp => bp.Booking)
+                .WithMany(b => b.BookingProducts)
+                .HasForeignKey(bp => bp.BookingId);
 
-        public void Delete(int productId)
-        {
-            throw new NotImplementedException();
-        }
+            modelBuilder.Entity<BookingProduct>()
+                .HasOne(bp => bp.Product)
+                .WithMany(p => p.BookingProducts)
+                .HasForeignKey(bp => bp.ProductId);
+            modelBuilder.Entity<Products>()
+                .HasKey(p => p.ProductId);
 
-        public List<Products> GetAll()
-        {
-            return _context._products
-                 .ToList();
-        }
-
-        public Products? GetById(int productId)
-        {
-            return _context._products.FirstOrDefault(p => p.ProductId == productId);
-        }
-
-        public void Update(Products products)
-        {
-            throw new NotImplementedException();
-        }
-    }
-}
-
-
-        /*
-        private static List<Products> products = new List<Products>
-        {
-
-            // BCD
-            new Products
-            {
-                ProductId = 1,
-                Brand = "Scubapro",
-                Model = "Navigator Lite BCD",
-                PricePerDay = 125,
-                Image = "NavigatorLiteBCD.webp",
-                Category = "BCD",
-                Sizes = new List<string> { "S", "M", "L" }
-            },
+            modelBuilder.Entity<Products>().HasData(
+                 new Products
+                 {
+                     ProductId = 1,
+                     Brand = "Scubapro",
+                     Model = "Navigator Lite BCD",
+                     PricePerDay = 125,
+                     Image = "NavigatorLiteBCD.webp",
+                     Category = "BCD",
+                     Sizes = new List<string> { "S", "M", "L" }
+                 },
               new Products
-            {
-                ProductId = 2,
-                Brand = "Scubapro",
-                Model = "BCD Glide",
-                PricePerDay = 140,
-                Image = "BCDGlide.webp",
-                Category = "BCD",
-                Sizes = new List<string> { "S", "M", "L" }
-            },
+              {
+                  ProductId = 2,
+                  Brand = "Scubapro",
+                  Model = "BCD Glide",
+                  PricePerDay = 140,
+                  Image = "BCDGlide.webp",
+                  Category = "BCD",
+                  Sizes = new List<string> { "S", "M", "L" }
+              },
 
             new Products
             {
@@ -133,7 +114,7 @@ namespace DeepDive11.Persistence
             },
 
             new Products
-            {   
+            {
                 ProductId = 8,
                 Brand = "Waterproof",
                 Model = "W5",
@@ -198,7 +179,7 @@ namespace DeepDive11.Persistence
             {
                 ProductId = 13,
                 Brand = "Scubapro",
-                Model="Tank 5 liter",
+                Model = "Tank 5 liter",
                 Volume = 5,
                 PricePerDay = 150,
                 Image = "Tank.jpg",
@@ -422,7 +403,7 @@ namespace DeepDive11.Persistence
                 Image = "RegulatorSæt33.webp",
                 Category = "Regulatorsæt"
             },
-           
+
             new Products
             {
                 ProductId = 34,
@@ -457,56 +438,7 @@ namespace DeepDive11.Persistence
                    "Snorkel",
                    "Finner"
                 }
-            },
-
-        };
-
-        public static List<Products> GetAll()
-        {
-            return products;
+            });
         }
-
-        public static Products? GetByModel(string model)
-        {
-            return products.FirstOrDefault(p => p.Model == model);
-        }
-
-        public static Products? GetById(int id)
-        {
-            return products.FirstOrDefault(p => p.ProductId == id);
-        }
-
-        public static void Add(Products product)
-        {
-            if (product == null)
-                return;
-
-            products.Add(product);
-        }
-
-        public static void Delete(string model)
-        {
-            products.RemoveAll(p => p.Model == model);
-        }
-
-        public static void Update(string model, Products product)
-        {
-            var productToUpdate = GetByModel(model);
-
-            if (productToUpdate != null)
-            {
-                productToUpdate.Brand = product.Brand;
-                productToUpdate.Model = product.Model;
-                productToUpdate.PricePerDay = product.PricePerDay;
-                productToUpdate.Type = product.Type;
-                productToUpdate.Thickness = product.Thickness;
-                productToUpdate.Volume = product.Volume;
-                productToUpdate.Image = product.Image;
-                productToUpdate.Category = product.Category;
-                productToUpdate.Sizes = product.Sizes;
-
-            }
-        }
-        */
-
-
+    }
+}

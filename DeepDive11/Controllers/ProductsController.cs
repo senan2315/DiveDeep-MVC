@@ -6,6 +6,12 @@ namespace DeepDive11.Controllers
 {
     public class ProductsController : Controller
     {
+        private readonly IProductsRepository _productsRepository;
+
+        public ProductsController(IProductsRepository productsRepository)
+        {
+            _productsRepository = productsRepository;
+        }
         public IActionResult Index()
         {
             return View();
@@ -13,7 +19,7 @@ namespace DeepDive11.Controllers
 
         public IActionResult Category(string id)
         {
-            var products = ProductsRepository
+            var products = _productsRepository
                 .GetAll()
                 .Where(p => p.Category == id)
                 .ToList();
@@ -26,7 +32,7 @@ namespace DeepDive11.Controllers
 
         public IActionResult Rent(int id)
         {
-            var product = ProductsRepository.GetById(id);
+            var product = _productsRepository.GetById(id);
 
             if (product == null)
             {
