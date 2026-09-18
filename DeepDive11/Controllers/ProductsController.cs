@@ -17,6 +17,28 @@ namespace DeepDive11.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Search(string? query)
+        {
+            if (string.IsNullOrWhiteSpace(query)) //hvis query er null, tom eller kun whitespace, returnes en tom liste
+            {
+                return Json(Array.Empty<object>());
+            }
+
+            var products = _productsRepository.Search(query) // Søger efter produkter som matchet det der er skrevet i søge-feltet og returnerer en liste med de produkter der matcher søgningen.
+                .Select(product => new 
+                {
+                    product.ProductId,
+                    product.Brand,
+                    product.Model,
+                    product.Type,
+                    product.Category,
+                    product.Image
+                });
+
+            return Json(products); //Sender listen med produkter til JSON så Javascript Kan bruge dette.
+        }
+
         public IActionResult Category(string id)
         {
             var products = _productsRepository
