@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using DeepDive11.Models;
 
 namespace DeepDive11.Data
 {
-    public class DeepDiveContext : DbContext
+    public class DeepDiveContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Products> _products { get; set; }
         public DbSet<Booking> _bookings { get; set; }
@@ -14,6 +16,29 @@ namespace DeepDive11.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder) //Many to many relation hvor Et product kan være del af mange bookings.
         {
+            base.OnModelCreating(modelBuilder);
+
+            //Identity roller for admin og customer
+            var admin = new IdentityRole
+            {
+                Id = "3bc0bf8b-fa7f-410e-8aa8-6aec18b8da12",
+                Name = "admin",
+                NormalizedName = "ADMIN",
+                ConcurrencyStamp = "a68e4ad2-7951-44e7-a0f2-a621fa087641"
+            };
+
+            var customer = new IdentityRole
+            {
+                Id = "c3498dbf-f53a-4c31-ac76-fdb342803cee",
+                Name = "customer",
+                NormalizedName = "CUSTOMER",
+                ConcurrencyStamp = "96767fe8-e303-4990-92ac-37fd9bbfd78c"
+            };
+
+            modelBuilder.Entity<IdentityRole>().HasData(admin, customer);
+
+
+
             modelBuilder.Entity<BookingProduct>()
                 .HasKey(bp => new { bp.BookingId, bp.ProductId });
 
