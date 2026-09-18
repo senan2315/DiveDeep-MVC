@@ -55,6 +55,24 @@
                     </ul>
                 </div>
             </div>
+            <div class="search-Wrapper">
+                <form class="d-flex" role="search" data-search-form>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" data-search />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="product-Cards product-cards-container" data-product-cards-container>
+                <template data-product-template>
+                    <div class="card">
+                        <div class="card-header" data-header></div>
+                        <div class="ProductImage">
+                            <img src="" alt="Product image" data-image />
+                        </div>
+                        <div class="card-body" data-body>
+                        </div>
+                    </div>
+                </template>
+            </div>
 
         </nav>
     </header>
@@ -96,6 +114,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/SearchScript.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

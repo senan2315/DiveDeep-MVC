@@ -31,6 +31,20 @@ namespace DeepDive11.Persistence
                  .ToList();
         }
 
+        public List<Products> Search(string searchTerm) //Laver en liste med proukter der matcher søge ordet
+        {
+            var normalizedSearchTerm = searchTerm.Trim(); //Fjerner whitespace fra det der er skrevet i søgeboksen
+
+            return _context._products
+                .AsNoTracking() //Fjerner tracking af entities da vi læser data.
+                .Where(p => //Vælger produkter hvor:
+                    (p.Model != null && p.Model.Contains(normalizedSearchTerm)) || //Modelnavnet indeholder søgeordet
+                    p.Brand.Contains(normalizedSearchTerm) || //Brand indeholder søgeordet
+                    (p.Type != null && p.Type.Contains(normalizedSearchTerm)) || //Type indeholder søgeordet
+                    p.Category.Contains(normalizedSearchTerm)) //Kategori indeholder søgeordet
+                .ToList(); //Tilføjer de proukter der matcher søgeordet til en liste.
+        }
+
         public Products? GetById(int productId)
         {
             return _context._products.FirstOrDefault(p => p.ProductId == productId);
