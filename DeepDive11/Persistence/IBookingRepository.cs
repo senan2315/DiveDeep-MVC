@@ -10,5 +10,6 @@ namespace DeepDive11.Persistence
         List<Booking> GetAll();
         Booking? GetById(int bookingId);
         void Update(Booking booking);
+        List<Booking> GetBookingsByUserId(string userId);
     }
 }

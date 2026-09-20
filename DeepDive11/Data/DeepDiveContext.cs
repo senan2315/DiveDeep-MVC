@@ -10,6 +10,7 @@ namespace DeepDive11.Data
         public DbSet<Products> _products { get; set; }
         public DbSet<Booking> _bookings { get; set; }
         public DbSet<BookingProduct> _bookingProducts { get; set; }
+   
 
         public DeepDiveContext(DbContextOptions<DeepDiveContext> dbContextOptions) : base(dbContextOptions)
         {

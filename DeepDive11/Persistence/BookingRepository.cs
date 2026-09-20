@@ -1,5 +1,6 @@
 ﻿using DeepDive11.Data;
 using DeepDive11.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeepDive11.Persistence
 {
@@ -34,6 +35,15 @@ namespace DeepDive11.Persistence
         public void Update(Booking booking)
         {
             throw new NotImplementedException();
+        }
+        
+        public List<Booking> GetBookingsByUserId(string userId)
+        {
+            return _context._bookings
+                .Where(b => b.UserId == userId)
+                .Include(b => b.BookingProducts) 
+                .ThenInclude(bp => bp.Product)
+                .ToList();
         }
     }
 }
