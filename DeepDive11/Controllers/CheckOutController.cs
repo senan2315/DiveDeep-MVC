@@ -2,6 +2,7 @@
 using DeepDive11.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using DeepDive11.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace DeepDive11.Controllers
 {
@@ -9,13 +10,16 @@ namespace DeepDive11.Controllers
     {
         private readonly IProductsRepository _productsRepository;
         private readonly IBookingRepository _bookingRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public CheckOutController(
             IProductsRepository productsRepository,
-            IBookingRepository bookingRepository)
+            IBookingRepository bookingRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _productsRepository = productsRepository;
             _bookingRepository = bookingRepository;
+            _userManager = userManager;
         }
         private static List<RentViewModel> cart = new List<RentViewModel>();
 
@@ -97,44 +101,57 @@ namespace DeepDive11.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CompleteBooking()
         {
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null)
+            {
+                return Challenge();
+            }
+
             if (cart.Count == 0)
             {
                 TempData["BookingError"] = "Kurven er tom.";
                 return RedirectToAction(nameof(Index));
             }
 
-            var productIds = cart
-                .Select(rent => rent.Product?.ProductId ?? 0)
-                .ToList();
-
-            var startDate = cart.Min(rent => rent.StartDate!.Value.Date); //Sætter "startDate" til at være den tidligste startdato i kurven
-            var endDate = cart.Max(rent => rent.EndDate!.Value.Date); //Sætter "endDate" til at være den seneste slutdato i kurven
-
-            var booking = new Booking
+            // Tjek at alle produkter stadig findes
+            foreach (var rent in cart)
             {
-                Name = Environment.MachineName,
-                StartDate = startDate,
-                EndDate = endDate,
-                PhoneNumber = "12345678",
-                BookingProducts = productIds
-                    .Distinct()
-                    .Select(productId => new BookingProduct
-                    {
-                        ProductId = productId
-                    })
-                    .ToList()
-            };
-
-            foreach (var productId in productIds.Distinct())
-            {
-                if (_productsRepository.GetById(productId) == null)
+                if (rent.Product == null ||
+                    _productsRepository.GetById(rent.Product.ProductId) == null)
                 {
                     return NotFound();
                 }
             }
 
+            var booking = new Booking
+            {
+                UserId = userId,
+                Name = Environment.MachineName,
+
+                // Disse kan stadig bruges som bookingens samlede periode
+                StartDate = cart.Min(rent => rent.StartDate!.Value.Date),
+                EndDate = cart.Max(rent => rent.EndDate!.Value.Date),
+
+                PhoneNumber = "12345678",
+
+                // Nu gemmer vi oplysningerne for HVERT produkt
+                BookingProducts = cart
+                    .Select(rent => new BookingProduct
+                    {
+                        ProductId = rent.Product!.ProductId,
+                        StartDate = rent.StartDate!.Value.Date,
+                        EndDate = rent.EndDate!.Value.Date,
+                        Quantity = rent.Quantity,
+                        TotalPrice = rent.TotalPrice
+                    })
+                    .ToList()
+            };
+
             _bookingRepository.Add(booking);
+
             cart.Clear();
+
             TempData["BookingSuccess"] = "Din booking er oprettet.";
 
             return RedirectToAction(nameof(Index));

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<DeepDive11.Models.Booking>
+
+@{
+    ViewData["Title"] = "Mine Ordrer";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Mine Ordrer</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Du har endnu ikke lavet nogen bookinger.
+        </div>
+    }
+    else
+    {
+        @foreach (var booking in Model)
+        {
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+
+                    <h4 class="mb-3">
+                        Booking #@booking.BookingId
+                    </h4>
+
+                    <h5>Produkter:</h5>
+
+                    @if (booking.BookingProducts != null &&
+                         booking.BookingProducts.Any())
+                    {
+                        @foreach (var bookingProduct in booking.BookingProducts)
+                        {
+                            <div class="border rounded p-3 mb-3">
+
+                                <h5>
+                                    @bookingProduct.Product?.Model
+                                </h5>
+
+                                <p class="mb-1">
+                                    <strong>Lejeperiode:</strong>
+                                    @bookingProduct.StartDate.ToString("dd-MM-yyyy")
+                                    -
+                                    @bookingProduct.EndDate.ToString("dd-MM-yyyy")
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Antal:</strong>
+                                    @bookingProduct.Quantity
+                                </p>
+
+                                <p class="mb-0">
+                                    <strong>Pris:</strong>
+                                    @bookingProduct.TotalPrice.ToString("0.00") kr.
+                                </p>
+
+                            </div>
+                        }
+
+                        <hr />
+
+                        <h5 class="text-end">
+                            Totalpris:
+                            @booking.BookingProducts.Sum(bp => bp.TotalPrice).ToString("0.00") kr.
+                        </h5>
+                    }
+                    else
+                    {
+                        <p>Ingen produkter fundet.</p>
+                    }
+
+                </div>
+            </div>
+        }
+    }
+</div>
