@@ -71,6 +71,25 @@ namespace DeepDive11.Controllers
                 );
             }
 
+            if (rentViewModel.StartDate.HasValue && 
+                rentViewModel.EndDate.HasValue)
+            {
+                var isAvailable = _bookingRepository.IsProductAvailable(
+                    product.ProductId,
+                    rentViewModel.StartDate.Value.Date,
+                    rentViewModel.EndDate.Value.Date,
+                    rentViewModel.Quantity
+                );
+            
+            if (!isAvailable) 
+                {
+                    ModelState.AddModelError(
+                        "",
+                        "Produktet er ikke tilgængeligt i den valgte periode."
+                    );
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 rentViewModel.Product = product;
