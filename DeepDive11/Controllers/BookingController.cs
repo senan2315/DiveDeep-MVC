@@ -33,7 +33,11 @@ namespace DeepDive11.Controllers
 
             if (userId == null)
             {
-                return Challenge();
+                return RedirectToPage(
+                  "/Account/Login",
+                new { area = "Identity" }
+    );
+
             }
 
             var bookings = _bookingRepository.GetBookingsByUserId(userId);
