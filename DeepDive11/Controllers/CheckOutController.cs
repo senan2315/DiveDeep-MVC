@@ -71,24 +71,46 @@ namespace DeepDive11.Controllers
                 );
             }
 
-            if (rentViewModel.StartDate.HasValue && 
+            // Tjek om der er nok af produktet ledigt både i databasen og i den nuværende kurv
+            if (rentViewModel.StartDate.HasValue &&
                 rentViewModel.EndDate.HasValue)
             {
-                var isAvailable = _bookingRepository.IsProductAvailable(
-                    product.ProductId,
-                    rentViewModel.StartDate.Value.Date,
-                    rentViewModel.EndDate.Value.Date,
-                    rentViewModel.Quantity
-                );
-            
-            if (!isAvailable) 
+                var startDate = rentViewModel.StartDate.Value.Date;
+                var endDate = rentViewModel.EndDate.Value.Date;
+
+                // Find hvor mange af samme produkt der allerede ligger i kurven på overlappende datoer
+                var quantityInCart = cart
+                    .Where(rent =>
+                        rent.Product != null &&
+                        rent.Product.ProductId == product.ProductId &&
+                        rent.StartDate.HasValue &&
+                        rent.EndDate.HasValue &&
+                        rent.StartDate.Value.Date < endDate &&
+                        rent.EndDate.Value.Date > startDate)
+                    .Sum(rent => rent.Quantity);
+
+                var requestedQuantity =
+                    quantityInCart + rentViewModel.Quantity;
+
+                var isAvailable =
+                    _bookingRepository.IsProductAvailable(
+                        product.ProductId,
+                        startDate,
+                        endDate,
+                        requestedQuantity
+                    );
+
+                if (!isAvailable)
                 {
                     ModelState.AddModelError(
                         "",
-                        "Produktet er ikke tilgængeligt i den valgte periode."
+                        "Der er ikke nok af dette produkt ledigt i den valgte periode"
                     );
                 }
-            }
+            
+
+            //
+        }
 
             if (!ModelState.IsValid)
             {
@@ -124,7 +146,10 @@ namespace DeepDive11.Controllers
 
             if (userId == null)
             {
-                return Challenge();
+                 return RedirectToPage(
+                     "/Account/Login",
+                 new { area = "Identity" }
+     );
             }
 
             if (cart.Count == 0)
