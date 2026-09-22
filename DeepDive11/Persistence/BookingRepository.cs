@@ -45,5 +45,31 @@ namespace DeepDive11.Persistence
                 .ThenInclude(bp => bp.Product)
                 .ToList();
         }
+
+        public bool IsProductAvailable
+            (int productId, 
+            DateTime startDate, 
+            DateTime endDate, 
+            int quantity)
+        {
+            const int maxQuantity = 5;
+
+            for (var date = startDate.Date;
+                date < endDate.Date; 
+                date = date.AddDays(1))
+            {
+                var bookedQuantity = _context._bookingProducts
+                    .Where(bp => 
+                            bp.ProductId == productId && 
+                            bp.StartDate.Date <= date.AddDays(1) && 
+                            bp.EndDate > date)
+                    .Sum(bp => bp.Quantity);
+                if (bookedQuantity + quantity > maxQuantity)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
