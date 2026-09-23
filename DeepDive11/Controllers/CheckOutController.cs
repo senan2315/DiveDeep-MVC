@@ -140,16 +140,16 @@ namespace DeepDive11.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CompleteBooking()
+        public async Task<IActionResult> CompleteBooking()
         {
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
 
-            if (userId == null)
+            if (user == null)
             {
-                 return RedirectToPage(
-                     "/Account/Login",
-                 new { area = "Identity" }
-     );
+                return RedirectToPage(
+                    "/Account/Login",
+                    new { area = "Identity" }
+                );
             }
 
             if (cart.Count == 0)
@@ -170,14 +170,14 @@ namespace DeepDive11.Controllers
 
             var booking = new Booking
             {
-                UserId = userId,
-                Name = Environment.MachineName,
+                UserId = user.Id,
+                Name = user.Name,
 
                 // Disse kan stadig bruges som bookingens samlede periode
                 StartDate = cart.Min(rent => rent.StartDate!.Value.Date),
                 EndDate = cart.Max(rent => rent.EndDate!.Value.Date),
 
-                PhoneNumber = "12345678",
+                PhoneNumber = user.PhoneNumber ?? "",
 
                 // Nu gemmer vi oplysningerne for HVERT produkt
                 BookingProducts = cart

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<DeepDive11.ViewModels.AdminBookingViewModel>
+
+@{
+    ViewData["Title"] = "Kontrolpanel";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Kontrolpanel</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Der er ingen bookinger.
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            var booking = item.Booking;
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">
+                            Booking #@booking.BookingId
+                        </h4>
+
+                        <div class="d-flex gap-2">
+
+                            <a asp-controller="Admin" asp-action="Edit" asp-route-id="@booking.BookingId" class="btn btn-primary">
+                                Rediger
+                            </a>
+
+                            <form asp-controller="Admin" asp-action="Delete" asp-route-id="@booking.BookingId" method="post">
+
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker på, at du vil slette denne booking?');">
+                                    Slet
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>Navn:</strong>
+                        @booking.Name
+                    </p>
+
+                    <p>
+                        <strong>Telefon:</strong>
+                        @booking.PhoneNumber
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        @item.Email
+                    </p>
+
+                    <h5>Produkter:</h5>
+
+                    @foreach (var bookingProduct in booking.BookingProducts)
+                    {
+                        <div class="border rounded p-3 mb-3">
+
+                            <h5>
+                                @bookingProduct.Product?.Brand
+                                @bookingProduct.Product?.Model
+                            </h5>
+
+                            <p class="mb-1">
+                                <strong>Lejeperiode:</strong>
+                                @bookingProduct.StartDate.ToString("dd-MM-yyyy")
+                                -
+                                @bookingProduct.EndDate.ToString("dd-MM-yyyy")
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Antal:</strong>
+                                @bookingProduct.Quantity
+                            </p>
+
+                            <p class="mb-0">
+                                <strong>Pris:</strong>
+                                @bookingProduct.TotalPrice.ToString("0.00") kr.
+                            </p>
+
+                        </div>
+                    }
+
+                    <hr />
+
+                    <h5 class="text-end">
+                        Totalpris:
+                        @(booking.BookingProducts.Sum(bp => bp.TotalPrice).ToString("0.00")) kr.
+                    </h5>
+
+                </div>
+            </div>
+        }
+    }
+</div>

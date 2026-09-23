@@ -37,6 +37,18 @@
                 </a>
             </li>
 
+            @if (User.IsInRole("admin"))
+            {
+                <li>
+                    <a class="dropdown-item"
+                           asp-area=""
+                           asp-controller="Admin"
+                           asp-action="Index">
+                        Kontrolpanel
+                    </a>
+                </li>
+            }
+
             <li>
                 <hr class="dropdown-divider" />
             </li>

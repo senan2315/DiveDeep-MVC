@@ -109,6 +109,8 @@ namespace DeepDive11.Areas.Identity.Pages.Account
                     _logger.LogInformation(
                         "User created a new account with password.");
 
+                    await _userManager.AddToRoleAsync(user, "customer");
+
                     await _signInManager.SignInAsync(
                         user,
                         isPersistent: false);
@@ -146,8 +148,7 @@ namespace DeepDive11.Areas.Identity.Pages.Account
         {
             if (!_userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException(
-                    "The Identity user store must support email.");
+                throw new NotSupportedException("The Identity user store must support email.");
             }
 
             return (IUserEmailStore<ApplicationUser>)_userStore;

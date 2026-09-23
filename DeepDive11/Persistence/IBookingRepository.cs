@@ -16,6 +16,7 @@ namespace DeepDive11.Persistence
             int productId, 
             DateTime startDate, 
             DateTime endDate,
-            int quantity);
+            int quantity,
+            int? excludeBookingId = null);
     }
 }

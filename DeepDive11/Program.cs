@@ -8,7 +8,7 @@ namespace DeepDive11
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<DeepDiveContext>(options =>
@@ -50,6 +50,20 @@ namespace DeepDive11
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            //gør en eksisterende bruger til admin.
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var adminUser = await userManager.FindByEmailAsync("senansalah222@gmail.com");
+                if (adminUser != null)
+                {
+                    var isAdmin = await userManager.IsInRoleAsync(adminUser, "admin");
+                    if (!isAdmin)
+                    {
+                        await userManager.AddToRoleAsync(adminUser, "admin");
+                    }
+                }
+            }
             app.Run();
         }
     }
