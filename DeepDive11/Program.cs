@@ -1,6 +1,7 @@
 using DeepDive11.Data;
 using DeepDive11.Models;
 using DeepDive11.Persistence;
+using DeepDive11.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,11 @@ namespace DeepDive11
             builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
+            builder.Services.AddHttpClient("OpenMeteoWeather", client => { client.BaseAddress = new Uri("https://api.open-meteo.com/"); }); 
+            builder.Services.AddHttpClient("OpenMeteoGeocoding", client => { client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/"); }); 
+            builder.Services.AddHttpClient("OpenMeteoMarine", client => { client.BaseAddress = new Uri("https://marine-api.open-meteo.com/"); });
+
+            builder.Services.AddScoped<OpenMeteoService>();
 
             var app = builder.Build();
 
