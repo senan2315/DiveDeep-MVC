@@ -36,22 +36,14 @@ namespace DeepDive11.Controllers
                 return View("Index");
             }
 
-            OpenMeteoWeatherResponse? weather =
-                await _openMeteoService.GetWeatherAsync(
-                    result.Latitude,
-                    result.Longitude
-                );
+            OpenMeteoWeatherResponse? weather = await _openMeteoService.GetWeatherAsync(result.Latitude, result.Longitude);
 
-            OpenMeteoMarineResponse? marine =
-                await _openMeteoService.GetMarineAsync(
-                    result.Latitude,
-                    result.Longitude
-                );
+            OpenMeteoMarineResponse? marine = await _openMeteoService.GetMarineAsync(result.Latitude, result.Longitude);
 
             bool isThunderstorm =
-                weather?.Current?.WeatherCode == 95 ||
-                weather?.Current?.WeatherCode == 96 ||
-                weather?.Current?.WeatherCode == 99;
+                weather?.Current?.WeatherCode == 95 || //tordenvejr
+                weather?.Current?.WeatherCode == 96 || //tordenvejr
+                weather?.Current?.WeatherCode == 99; //tordenvejr
 
             List<string> reasons = new List<string>();
 

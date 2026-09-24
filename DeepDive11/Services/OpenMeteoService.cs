@@ -24,14 +24,11 @@ namespace DeepDive11.Services
 
             string json = await response.Content.ReadAsStringAsync();
 
-            OpenMeteoLocationResponse? result =
-                JsonSerializer.Deserialize<OpenMeteoLocationResponse>(json);
+            OpenMeteoLocationResponse? result = JsonSerializer.Deserialize<OpenMeteoLocationResponse>(json);
 
             return result?.Results?.FirstOrDefault();
         }
-        public async Task<OpenMeteoWeatherResponse?> GetWeatherAsync(
-         double latitude,
-           double longitude)
+        public async Task<OpenMeteoWeatherResponse?> GetWeatherAsync(double latitude, double longitude)
         {
             var client = _httpClientFactory.CreateClient("OpenMeteoWeather");
 
@@ -45,14 +42,11 @@ namespace DeepDive11.Services
 
             string json = await response.Content.ReadAsStringAsync();
 
-            OpenMeteoWeatherResponse? result =
-                JsonSerializer.Deserialize<OpenMeteoWeatherResponse>(json);
+            OpenMeteoWeatherResponse? result = JsonSerializer.Deserialize<OpenMeteoWeatherResponse>(json);
 
             return result;
         }
-        public async Task<OpenMeteoMarineResponse?> GetMarineAsync(
-        double latitude,
-        double longitude)
+        public async Task<OpenMeteoMarineResponse?> GetMarineAsync(double latitude, double longitude)
         {
             var client = _httpClientFactory.CreateClient("OpenMeteoMarine");
 
@@ -66,8 +60,7 @@ namespace DeepDive11.Services
 
             string json = await response.Content.ReadAsStringAsync();
 
-            OpenMeteoMarineResponse? result =
-                JsonSerializer.Deserialize<OpenMeteoMarineResponse>(json);
+            OpenMeteoMarineResponse? result = JsonSerializer.Deserialize<OpenMeteoMarineResponse>(json);
 
             return result;
         }
