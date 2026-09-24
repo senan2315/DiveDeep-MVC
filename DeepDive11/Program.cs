@@ -54,7 +54,7 @@ namespace DeepDive11
             using (var scope = app.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                var adminUser = await userManager.FindByEmailAsync("senansalah222@gmail.com");
+                var adminUser = await userManager.FindByEmailAsync("deepdive@admin.dk");
                 if (adminUser != null)
                 {
                     var isAdmin = await userManager.IsInRoleAsync(adminUser, "admin");
