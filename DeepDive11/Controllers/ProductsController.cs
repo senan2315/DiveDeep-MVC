@@ -1,6 +1,7 @@
 ﻿using DeepDive11.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using DeepDive11.ViewModels;
+using DeepDive11.Models;
 
 namespace DeepDive11.Controllers
 {
@@ -39,10 +40,9 @@ namespace DeepDive11.Controllers
             return Json(products); //Sender listen med produkter til JSON så Javascript Kan bruge dette.
         }
 
-        public IActionResult Category(string id)
+        public async Task<IActionResult> Category(string id)
         {
-            var products = _productsRepository
-                .GetAll()
+            var products = (await _productsRepository.GetAll())
                 .Where(p => p.Category == id)
                 .ToList();
 
