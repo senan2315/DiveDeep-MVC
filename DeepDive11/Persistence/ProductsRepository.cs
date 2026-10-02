@@ -25,10 +25,10 @@ namespace DeepDive11.Persistence
             throw new NotImplementedException();
         }
 
-        public List<Products> GetAll()
+        public async Task<List<Products>> GetAll()
         {
-            return _context._products
-                 .ToList();
+            return await _context._products
+                 .ToListAsync();
         }
 
         public List<Products> Search(string searchTerm) //Laver en liste med proukter der matcher søge ordet
