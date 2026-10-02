@@ -14,10 +14,11 @@ namespace DeepDive11.Persistence
         {
             _context = deepDiveContext;
         }
-        public void Add(Products products)
+        public async Task Add(Products products)
         {
 
             _context._products.Add(products);
+            await _context.SaveChangesAsync();
         }
 
         public void Delete(int productId)
@@ -45,9 +46,9 @@ namespace DeepDive11.Persistence
                 .ToList(); //Tilføjer de proukter der matcher søgeordet til en liste.
         }
 
-        public Products? GetById(int productId)
+        public async Task<Products?> GetById(int productId)
         {
-            return _context._products.FirstOrDefault(p => p.ProductId == productId);
+            return await _context._products.FirstOrDefaultAsync(p => p.ProductId == productId);
         }
 
         public void Update(Products products)

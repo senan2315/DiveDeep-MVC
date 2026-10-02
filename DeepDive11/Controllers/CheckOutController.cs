@@ -29,9 +29,9 @@ namespace DeepDive11.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart(RentViewModel rentViewModel)
+        public async Task<IActionResult> AddToCart(RentViewModel rentViewModel)
         {
-            var product = _productsRepository
+            var product = await _productsRepository
                 .GetById(rentViewModel.Product!.ProductId);
 
             if (product == null)

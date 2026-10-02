@@ -52,9 +52,9 @@ namespace DeepDive11.Controllers
             // Finder alle produkter hvor Category matcher den kategori, brugeren klikkede på.
         }
 
-        public IActionResult Rent(int id)
+        public async Task<IActionResult> Rent(int id)
         {
-            var product = _productsRepository.GetById(id);
+            var product = await _productsRepository.GetById(id);
 
             if (product == null)
             {
