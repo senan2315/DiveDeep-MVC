@@ -1,0 +1,473 @@
+﻿@model DeepDive11.ViewModels.ManageProductsViewModel
+
+@{
+    ViewData["Title"] = "Tilføj/slet Produkt";
+}
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Tilføj/slet Produkt</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+    <!-- TILFØJ PRODUKT -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4 class="mb-3">Tilføj produkt</h4>
+
+            <form asp-controller="Admin"
+                  asp-action="AddProduct"
+                  method="post">
+
+                <!-- Brand -->
+                <div class="mb-3">
+                    <label class="form-label">Brand</label>
+
+                    <input name="Brand"
+                           class="form-control"
+                           required />
+                </div>
+
+
+                <!-- Model -->
+                <div class="mb-3">
+                    <label class="form-label">Model</label>
+
+                    <input name="Model"
+                           class="form-control" />
+                </div>
+
+
+                <!-- Pris -->
+                <div class="mb-3">
+                    <label class="form-label">Pris pr. dag</label>
+
+                    <input name="PricePerDay"
+                           type="number"
+                           min="0"
+                           class="form-control"
+                           required />
+                </div>
+
+
+                <!-- Kategori -->
+                <div class="mb-3">
+                    <label class="form-label">Kategori</label>
+
+                    <select id="categorySelect"
+                            name="ProductCategoryId"
+                            class="form-select"
+                            required>
+
+                        <option value="">Vælg kategori</option>
+
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.ProductCategoryId">
+                                @category.Name
+                            </option>
+                        }
+
+                    </select>
+                </div>
+
+
+                <!-- Type -->
+                <div id="typeField" class="mb-3">
+                    <label class="form-label">Type</label>
+
+                    <input name="Type"
+                           class="form-control" />
+                </div>
+
+
+                <!-- Størrelser -->
+                <div id="sizesField" class="mb-3">
+                    <label class="form-label">Størrelser</label>
+
+                    <input name="Sizes"
+                           class="form-control"
+                           placeholder="Eksempel: XS, S, M, L, XL" />
+
+                    <div class="form-text">
+                        Skriv størrelserne adskilt med komma.
+                    </div>
+                </div>
+
+
+                <!-- Tykkelse -->
+                <div id="thicknessField" class="mb-3">
+                    <label class="form-label">Tykkelse</label>
+
+                    <input name="Thickness"
+                           type="number"
+                           step="0.1"
+                           min="0"
+                           class="form-control" />
+
+                    <div class="form-text">
+                        Eksempel: 5.0 mm
+                    </div>
+                </div>
+
+
+                <!-- Volume -->
+                <div id="volumeField" class="mb-3">
+                    <label class="form-label">Volume</label>
+
+                    <input name="Volume"
+                           type="number"
+                           min="0"
+                           class="form-control" />
+
+                    <div class="form-text">
+                        Eksempel: 12 liter
+                    </div>
+                </div>
+
+
+                <!-- Billede -->
+                <div class="mb-3">
+                    <label class="form-label">Billede</label>
+
+                    <input name="Image"
+                           class="form-control" />
+
+                    <div class="form-text">
+                        Indtast filnavn eller URL til billedet.
+                    </div>
+                </div>
+
+
+                <!-- Beskrivelse -->
+                <div class="mb-3">
+                    <label class="form-label">Beskrivelse</label>
+
+                    <textarea name="Description"
+                              class="form-control"
+                              rows="4"></textarea>
+                </div>
+
+
+                <!-- First Stage -->
+                <div id="firstStageField" class="mb-3">
+                    <label class="form-label">First Stage</label>
+
+                    <input name="FirstStage"
+                           class="form-control" />
+                </div>
+
+
+                <!-- Second Stage -->
+                <div id="secondStageField" class="mb-3">
+                    <label class="form-label">Second Stage</label>
+
+                    <input name="SecondStage"
+                           class="form-control" />
+                </div>
+
+
+                <!-- Octopus -->
+                <div id="octopusField" class="mb-3">
+                    <label class="form-label">Octopus</label>
+
+                    <input name="Octopus"
+                           class="form-control" />
+                </div>
+
+
+                <!-- Included Items -->
+                <div id="includedItemsField" class="mb-3">
+                    <label class="form-label">Inkluderede ting</label>
+
+                    <textarea name="IncludedItems"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Eksempel: BCD, Dykkerdragt, Tank, Finner"></textarea>
+
+                    <div class="form-text">
+                        Skriv de inkluderede ting adskilt med komma.
+                    </div>
+                </div>
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Tilføj produkt
+
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- TILFØJ KATEGORI -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4 class="mb-3">Tilføj produktkategori</h4>
+
+            <form asp-controller="Admin"
+                  asp-action="AddCategory"
+                  method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Kategorinavn</label>
+
+                    <input name="name"
+                           class="form-control"
+                           required />
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Tilføj kategori
+
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- PRODUKTER -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4 class="mb-3">Produkter</h4>
+
+            @if (!Model.Products.Any())
+            {
+                <div class="alert alert-info">
+                    Der er ingen produkter.
+                </div>
+            }
+            else
+            {
+                @foreach (var product in Model.Products)
+                {
+                    <div class="border rounded p-3 mb-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h5 class="mb-1">
+                                    @product.Brand @product.Model
+                                </h5>
+
+                                <p class="mb-1">
+                                    <strong>Kategori:</strong>
+                                    @product.ProductCategory?.Name
+                                </p>
+
+                                <p class="mb-0">
+                                    <strong>Pris:</strong>
+                                    @product.PricePerDay kr. pr. dag
+                                </p>
+
+                            </div>
+
+                            <form asp-controller="Admin"
+                                  asp-action="DeleteProduct"
+                                  asp-route-id="@product.ProductId"
+                                  method="post">
+
+                                <button type="submit"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('Er du sikker på, at du vil slette dette produkt?');">
+
+                                    Slet
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+
+    <!-- KATEGORIER -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4 class="mb-3">Produktkategorier</h4>
+
+            @if (!Model.Categories.Any())
+            {
+                <div class="alert alert-info">
+                    Der er ingen produktkategorier.
+                </div>
+            }
+            else
+            {
+                @foreach (var category in Model.Categories)
+                {
+                    <div class="border rounded p-3 mb-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <h5 class="mb-0">
+                                    @category.Name
+                                </h5>
+
+                                <p class="mb-0">
+                                    Antal produkter:
+                                    @category.Products.Count
+                                </p>
+
+                            </div>
+
+                            <form asp-controller="Admin"
+                                  asp-action="DeleteCategory"
+                                  asp-route-id="@category.ProductCategoryId"
+                                  method="post">
+
+                                <button type="submit"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('Er du sikker på, at du vil slette denne kategori?');">
+
+                                    Slet
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    const categorySelect = document.getElementById("categorySelect");
+
+    const typeField = document.getElementById("typeField");
+    const sizesField = document.getElementById("sizesField");
+    const thicknessField = document.getElementById("thicknessField");
+    const volumeField = document.getElementById("volumeField");
+
+    const firstStageField = document.getElementById("firstStageField");
+    const secondStageField = document.getElementById("secondStageField");
+    const octopusField = document.getElementById("octopusField");
+
+    const includedItemsField = document.getElementById("includedItemsField");
+
+
+    function updateProductFields() {
+
+        const category =
+            categorySelect.options[categorySelect.selectedIndex]?.text;
+
+
+        // Skjul alle kategori-specifikke felter
+        typeField.style.display = "none";
+        sizesField.style.display = "none";
+        thicknessField.style.display = "none";
+        volumeField.style.display = "none";
+
+        firstStageField.style.display = "none";
+        secondStageField.style.display = "none";
+        octopusField.style.display = "none";
+
+        includedItemsField.style.display = "none";
+
+
+        // Dykkerdragter
+        if (category === "Dykkerdragter") {
+
+            typeField.style.display = "block";
+            sizesField.style.display = "block";
+            thicknessField.style.display = "block";
+
+        }
+
+
+        // BCD
+        else if (category === "BCD") {
+
+            sizesField.style.display = "block";
+
+        }
+
+
+        // Finner
+        else if (category === "Finner") {
+
+            sizesField.style.display = "block";
+
+        }
+
+
+        // Tanke
+        else if (category === "Tanke") {
+
+            volumeField.style.display = "block";
+
+        }
+
+
+        // Regulatorsæt
+        else if (category === "Regulatorsæt") {
+
+            firstStageField.style.display = "block";
+            secondStageField.style.display = "block";
+            octopusField.style.display = "block";
+
+        }
+
+
+        // Komplette sæt
+        else if (category === "Komplette sæt") {
+
+            includedItemsField.style.display = "block";
+
+        }
+
+    }
+
+
+    categorySelect.addEventListener(
+        "change",
+        updateProductFields
+    );
+
+
+    // Kør funktionen når siden indlæses
+    updateProductFields();
+
+</script>

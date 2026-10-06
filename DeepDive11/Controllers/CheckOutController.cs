@@ -32,7 +32,7 @@ namespace DeepDive11.Controllers
         public async Task<IActionResult> AddToCart(RentViewModel rentViewModel)
         {
             var product = await _productsRepository
-                .GetById(rentViewModel.Product!.ProductId);
+                .GetByIdAsync(rentViewModel.Product!.ProductId);
 
             if (product == null)
             {
@@ -162,7 +162,7 @@ namespace DeepDive11.Controllers
             foreach (var rent in cart)
             {
                 if (rent.Product == null ||
-                    _productsRepository.GetById(rent.Product.ProductId) == null)
+                await _productsRepository.GetByIdAsync(rent.Product.ProductId) == null)
                 {
                     return NotFound();
                 }
