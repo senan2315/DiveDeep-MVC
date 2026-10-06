@@ -22,7 +22,7 @@ namespace DeepDive11API.Contollers
         [Route("api/products")]
         public async Task<ActionResult<List<Products>>> GetAll()
         {
-            var books = await _productsRepository.GetAll();
+            var books = await _productsRepository.GetAllAsync();
 
             var response = books.Adapt<List<ProductsResponse>>();
             return Ok(response);
@@ -37,7 +37,7 @@ namespace DeepDive11API.Contollers
             }
 
             products.ProductId = 0;
-            await _productsRepository.Add(products);
+            await _productsRepository.AddAsync(products);
             return CreatedAtAction(nameof(GetById), new { id = products.ProductId }, products); //Returnerer 201 når bogen er lavet.
 
         }
@@ -46,7 +46,7 @@ namespace DeepDive11API.Contollers
         [Route("api/products/{productId}")]
         public async Task<ActionResult<ProductsResponse>> GetById(int productId)
         {
-            var product = await _productsRepository.GetById(productId);
+            var product = await _productsRepository.GetByIdAsync(productId);
             if (product == null) return NotFound();
             var response = product.Adapt<ProductsResponse>();
             return Ok(response);
