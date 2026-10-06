@@ -1,0 +1,6 @@
+@DeepDive11API_HostAddress = http://localhost:5178
+
+GET {{DeepDive11API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

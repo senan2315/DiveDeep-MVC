@@ -1,6 +1,7 @@
 ﻿using DeepDive11.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using DeepDive11.ViewModels;
+using DeepDive11.Models;
 
 namespace DeepDive11.Controllers
 {

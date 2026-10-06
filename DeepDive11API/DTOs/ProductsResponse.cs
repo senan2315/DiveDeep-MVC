@@ -1,0 +1,58 @@
+﻿using DeepDive11.Models;
+
+namespace DeepDive11API.DTOs
+{
+    public class ProductsResponse
+    {
+        public string Brand { get; set; }
+
+        public string? Model { get; set; }
+
+        public enum Size
+        {
+
+            ExtraSmall,
+            Small,
+            Medium,
+            Large,
+            ExtraLarge
+
+        }
+
+        public Size? ProductSize { get; set; }
+
+        public int PricePerDay { get; set; }
+
+        public string? Type { get; set; }
+
+        public enum Gender
+        {
+            Male,
+            Female
+        }
+
+        public Gender? ProductGender { get; set; }
+
+        public double? Thickness { get; set; }
+
+        public int? Volume { get; set; }
+
+        public string? Image { get; set; }
+
+        public string Category { get; set; }
+
+
+        public int ProductId { get; set; }
+
+        public List<string>? Sizes { get; set; }
+
+        public string? Description { get; set; }
+
+        public string? FirstStage { get; set; }
+        public string? SecondStage { get; set; }
+        public string? Octopus { get; set; }
+
+        public List<string>? IncludedItems { get; set; } // komplette sæt
+        public List<BookingProduct> BookingProducts { get; set; } = new();
+    }
+}
