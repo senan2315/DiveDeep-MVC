@@ -18,49 +18,50 @@ namespace DeepDive11.Controllers
         }
 
         [HttpGet]
-        public IActionResult Search(string? query)
+        public async Task<IActionResult> Search(string? query)
         {
-            if (string.IsNullOrWhiteSpace(query)) //hvis query er null, tom eller kun whitespace, returnes en tom liste
+            if (string.IsNullOrWhiteSpace(query))
             {
                 return Json(Array.Empty<object>());
             }
 
-            var products = _productsRepository.Search(query) // Søger efter produkter som matchet det der er skrevet i søge-feltet og returnerer en liste med de produkter der matcher søgningen.
-                .Select(product => new 
-                {
-                    product.ProductId,
-                    product.Brand,
-                    product.Model,
-                    product.Type,
-                    product.Category,
-                    product.Image
-                });
+            var productList = await _productsRepository.SearchAsync(query);
 
-            return Json(products); //Sender listen med produkter til JSON så Javascript Kan bruge dette.
+            var products = productList.Select(product => new
+            {
+                product.ProductId,
+                product.Brand,
+                product.Model,
+                product.Type,
+                Category = product.ProductCategory?.Name,
+                product.Image
+            });
+
+            return Json(products);
         }
 
-        public IActionResult Category(string id)
+        public async Task<IActionResult> Category(string id)
         {
-            var products = _productsRepository
-                .GetAll()
-                .Where(p => p.Category == id)
+            var products = await _productsRepository.GetAllAsync();
+
+            products = products
+                .Where(p => p.ProductCategory != null && p.ProductCategory.Name == id)
                 .ToList();
 
             ViewBag.Category = id;
 
             return View(products);
-            // Finder alle produkter hvor Category matcher den kategori, brugeren klikkede på.
         }
 
-        public IActionResult Rent(int id)
+        public async Task<IActionResult> Rent(int id)
         {
-            var product = _productsRepository.GetById(id);
+            var product = await _productsRepository.GetByIdAsync(id);
 
             if (product == null)
             {
                 return NotFound();
             }
-            
+
             var rentViewModel = new RentViewModel
             {
                 Product = product,
@@ -71,6 +72,5 @@ namespace DeepDive11.Controllers
 
             return View(rentViewModel);
         }
-        // Implementer logikken for at leje produktet her, f.eks. opdatering af databasen, betaling osv.
     }
 }
