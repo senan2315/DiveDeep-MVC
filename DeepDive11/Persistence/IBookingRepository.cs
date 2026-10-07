@@ -5,13 +5,13 @@ namespace DeepDive11.Persistence
 {
     public interface IBookingRepository
     {
-        void Add(Booking booking);
-        void Delete(int bookingId);
-        List<Booking> GetAll();
-        Booking? GetById(int bookingId);
-        void Update(Booking booking);
+        Task Add(Booking booking);
+        Task Delete(int bookingId);
+        Task<List<Booking>> GetAll();
+        Task<Booking?> GetById(int bookingId);
+        Task Update(Booking booking);
         List<Booking> GetBookingsByUserId(string userId);
-
+        
         bool IsProductAvailable(
             int productId, 
             DateTime startDate, 

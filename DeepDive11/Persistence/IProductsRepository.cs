@@ -4,11 +4,11 @@ namespace DeepDive11.Persistence
 {
     public interface IProductsRepository
     {
-        Task AddAsync(Products products);
-        Task DeleteAsync(int productId);
-        Task<List<Products>> GetAllAsync();
-        Task<List<Products>> SearchAsync(string searchTerm);
-        Task<Products?> GetByIdAsync(int productId);
-        Task UpdateAsync(Products products);
+        Task Add(Products products);
+        Task Delete(int productId);
+        Task <List<Products>> GetAll();
+        List<Products> Search(string searchTerm);
+        Task<Products?> GetById(int productId);
+        Task Update(Products products);
     }
 }

@@ -11,17 +11,17 @@ namespace DeepDive11.Persistence
         {
             _context = deepDiveContext;
         }
-        public void Add(Booking booking)
+        public async Task Add(Booking booking)
         {
             _context._bookings.Add(booking);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int bookingId)
+        public async Task Delete(int bookingId)
         {
-            var booking = _context._bookings
+            var booking = await _context._bookings
                 .Include(b => b.BookingProducts)
-                .FirstOrDefault(b => b.BookingId == bookingId);
+                .FirstOrDefaultAsync(b => b.BookingId == bookingId);
 
             if (booking == null)
             {
@@ -31,30 +31,30 @@ namespace DeepDive11.Persistence
             _context._bookingProducts.RemoveRange(booking.BookingProducts);
             _context._bookings.Remove(booking);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<Booking> GetAll()
+        public async Task<List<Booking>> GetAll()
         {
-            return _context._bookings
+            return await _context._bookings
                 .Include(b => b.BookingProducts)
                 .ThenInclude(bp => bp.Product)
                 .OrderByDescending(b => b.BookingId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Booking? GetById(int bookingId)
+        public async Task<Booking?> GetById(int bookingId)
         {
-            return _context._bookings
+            return await _context._bookings
                 .Include(b => b.BookingProducts)
                 .ThenInclude(bp => bp.Product)
-                .FirstOrDefault(b => b.BookingId == bookingId);
+                .FirstOrDefaultAsync(b => b.BookingId == bookingId);
         }
 
-        public void Update(Booking booking)
+        public async Task Update(Booking booking)
         {
             _context._bookings.Update(booking);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public List<Booking> GetBookingsByUserId(string userId)
@@ -69,7 +69,6 @@ namespace DeepDive11.Persistence
         public bool IsProductAvailable(int productId, DateTime startDate, DateTime endDate, int quantity, int? excludeBookingId = null)
         {
             const int maxQuantity = 5;
-
             for (var date = startDate.Date; date < endDate.Date; date = date.AddDays(1))
             {
                 var bookedQuantity = _context._bookingProducts
@@ -80,13 +79,11 @@ namespace DeepDive11.Persistence
                         (!excludeBookingId.HasValue ||
                          bp.BookingId != excludeBookingId.Value))
                     .Sum(bp => bp.Quantity);
-
                 if (bookedQuantity + quantity > maxQuantity)
                 {
                     return false;
                 }
             }
-
             return true;
         }
     }
