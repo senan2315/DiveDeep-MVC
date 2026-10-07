@@ -37,7 +37,9 @@
 
         public string? Image { get; set; }
 
-        public string Category { get; set; }
+        public int ProductCategoryId { get; set; }
+
+        public ProductCategory? ProductCategory { get; set; }
 
 
         public int ProductId { get; set; }
