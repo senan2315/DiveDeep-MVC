@@ -162,7 +162,7 @@ namespace DeepDive11.Controllers
             foreach (var rent in cart)
             {
                 if (rent.Product == null ||
-                    _productsRepository.GetById(rent.Product.ProductId) == null)
+                   await _productsRepository.GetById(rent.Product.ProductId) == null)
                 {
                     return NotFound();
                 }

@@ -21,9 +21,14 @@ namespace DeepDive11.Persistence
             await _context.SaveChangesAsync();
         }
 
-        public void Delete(int productId)
+        public async Task Delete(int productId)
         {
-            throw new NotImplementedException();
+            var products = await _context._products.FindAsync(productId);
+            if (products != null) 
+            {
+            _context._products.Remove(products);
+            await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<List<Products>> GetAll()
@@ -51,9 +56,10 @@ namespace DeepDive11.Persistence
             return await _context._products.FirstOrDefaultAsync(p => p.ProductId == productId);
         }
 
-        public void Update(Products products)
+        public async Task Update(Products products)
         {
-            throw new NotImplementedException();
+            _context._products.Update(products);
+            await _context.SaveChangesAsync();
         }
     }
 }

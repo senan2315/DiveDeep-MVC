@@ -21,7 +21,7 @@ namespace DeepDive11.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var bookings = _bookingRepository.GetAll();
+            var bookings = await _bookingRepository.GetAll();
 
             var viewModels = new List<AdminBookingViewModel>();
 
@@ -40,9 +40,9 @@ namespace DeepDive11.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var booking = _bookingRepository.GetById(id);
+            var booking = await _bookingRepository.GetById(id);
 
             if (booking == null)
             {
@@ -70,9 +70,9 @@ namespace DeepDive11.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken] 
-        public IActionResult Edit(EditBookingViewModel viewModel)
+        public async Task<IActionResult> Edit(EditBookingViewModel viewModel)
         {
-            var booking = _bookingRepository.GetById(viewModel.BookingId);
+            var booking = await _bookingRepository.GetById(viewModel.BookingId);
 
             if (booking == null)
             {

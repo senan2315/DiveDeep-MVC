@@ -19,6 +19,7 @@ namespace DeepDive11API
             });
 
             builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             // Add services to the container.
 
             builder.Services.AddControllers();
