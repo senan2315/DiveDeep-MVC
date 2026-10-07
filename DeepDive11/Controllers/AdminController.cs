@@ -173,7 +173,7 @@ namespace DeepDive11.Controllers
         [HttpGet]
         public async Task<IActionResult> ManageProducts()
         {
-            var products = await _productsRepository.GetAllAsync();
+            var products = await _productsRepository.GetAll();
             var categories = await _productCategoryRepository.GetAllAsync();
 
             var viewModel = new ManageProductsViewModel
@@ -244,7 +244,7 @@ namespace DeepDive11.Controllers
                 return RedirectToAction(nameof(ManageProducts));
             }
 
-            await _productsRepository.AddAsync(product);
+            await _productsRepository.Add(product);
 
             TempData["SuccessMessage"] =
                 "Produktet er blevet tilføjet.";
@@ -256,7 +256,7 @@ namespace DeepDive11.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await _productsRepository.GetByIdAsync(id);
+            var product = await _productsRepository.GetById(id);
 
             if (product == null)
             {
@@ -273,7 +273,7 @@ namespace DeepDive11.Controllers
                 return RedirectToAction(nameof(ManageProducts));
             }
 
-            await _productsRepository.DeleteAsync(id);
+            await _productsRepository.Delete(id);
 
             TempData["SuccessMessage"] = "Produktet er blevet slettet.";
 

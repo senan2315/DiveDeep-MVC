@@ -10,5 +10,10 @@ namespace DeepDive11.Persistence
         List<Products> Search(string searchTerm);
         Task<Products?> GetById(int productId);
         Task Update(Products products);
+        // Check existence of a product category to avoid FK constraint violations
+        Task<bool> CategoryExistsAsync(int productCategoryId);
+
+        // Attach existing ProductCategory entity to the provided product; returns true if attached
+        Task<bool> AttachCategoryAsync(Products products);
     }
 }

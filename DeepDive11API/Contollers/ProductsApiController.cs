@@ -22,7 +22,7 @@ namespace DeepDive11API.Contollers
         [Route("api/products")]
         public async Task<ActionResult<List<Products>>> GetAll()
         {
-            var books = await _productsRepository.GetAllAsync();
+            var books = await _productsRepository.GetAll();
 
             var response = books.Adapt<List<ProductsResponse>>();
             return Ok(response);
@@ -38,11 +38,30 @@ namespace DeepDive11API.Contollers
             }
             var products = request.Adapt<Products>();
             products.ProductId = 0;
+
+            // Validate ProductCategoryId to avoid inserting an invalid FK (causes SQL FK constraint failure)
+            if (products.ProductCategoryId <= 0)
+            {
+                ModelState.AddModelError("ProductCategoryId", "ProductCategoryId is required and must be a positive integer.");
+                return BadRequest(ModelState);
+            }
+
+            // Validate and attach the provided ProductCategory to avoid FK violations
+            var attached = await _productsRepository.AttachCategoryAsync(products);
+            if (!attached)
+            {
+                ModelState.AddModelError("ProductCategoryId", "The specified ProductCategoryId does not exist.");
+                return BadRequest(ModelState);
+            }
+
             await _productsRepository.Add(products);
+
+            var response = products.Adapt<ProductsResponse>();
+
             return CreatedAtAction(
                 nameof(GetById),
                 new { productId = products.ProductId },
-                products 
+                response
             );
 
         }
@@ -51,7 +70,7 @@ namespace DeepDive11API.Contollers
         [Route("api/products/{productId}")]
         public async Task<ActionResult<ProductsResponse>> GetById(int productId)
         {
-            var product = await _productsRepository.GetByIdAsync(productId);
+            var product = await _productsRepository.GetById(productId);
             if (product == null) return NotFound();
             var response = product.Adapt<ProductsResponse>();
             return Ok(response);
@@ -70,7 +89,6 @@ namespace DeepDive11API.Contollers
             existingProduct.Model = request.Model;
             existingProduct.PricePerDay = request.PricePerDay;
             existingProduct.Type = request.Type;
-            existingProduct.Category = request.Category;
             existingProduct.Image = request.Image;
             existingProduct.Description = request.Description;
             await _productsRepository.Update(existingProduct);

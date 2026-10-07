@@ -39,7 +39,7 @@ namespace DeepDive11API.DTOs
 
         public string? Image { get; set; }
 
-        public string Category { get; set; }
+        public int? ProductCategoryId { get; set; } = 0; 
 
 
         public int ProductId { get; set; }

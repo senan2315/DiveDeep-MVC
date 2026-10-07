@@ -1,6 +1,7 @@
 ﻿using DeepDive11.Data;
 using DeepDive11.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DeepDive11.Persistence
 {
@@ -15,8 +16,34 @@ namespace DeepDive11.Persistence
         public async Task Add(Products products)
         {
 
-            _context._products.Add(products);
+            await _context._products.AddAsync(products);
             await _context.SaveChangesAsync();
+        }
+
+        // Helper used by controller to validate FK existence before attempting insert
+        public async Task<bool> CategoryExistsAsync(int productCategoryId)
+        {
+            return await _context._productCategories.AnyAsync(c => c.ProductCategoryId == productCategoryId);
+        }
+
+        public async Task<bool> AttachCategoryAsync(Products products)
+        {
+            if (products == null || products.ProductCategoryId <= 0)
+                return false;
+
+            var category = await _context._productCategories.FindAsync(products.ProductCategoryId);
+            if (category == null)
+                return false;
+
+            // Ensure the category is attached to the context so EF won't try to insert it
+            var entry = _context.Entry(category);
+            if (entry.State == EntityState.Detached)
+            {
+                _context._productCategories.Attach(category);
+            }
+
+            products.ProductCategory = category;
+            return true;
         }
 
         public async Task Delete(int productId)
@@ -29,25 +56,6 @@ namespace DeepDive11.Persistence
             }
         }
 
-        public async Task AddAsync(Products products)
-        {
-            return await _context._products
-                 .ToListAsync();
-        }
-
-        public List<Products> Search(string searchTerm) //Laver en liste med proukter der matcher søge ordet
-        {
-            var normalizedSearchTerm = searchTerm.Trim(); //Fjerner whitespace fra det der er skrevet i søgeboksen
-
-            return _context._products
-                .AsNoTracking() //Fjerner tracking af entities da vi læser data.
-                .Where(p => //Vælger produkter hvor:
-                    (p.Model != null && p.Model.Contains(normalizedSearchTerm)) || //Modelnavnet indeholder søgeordet
-                    p.Brand.Contains(normalizedSearchTerm) || //Brand indeholder søgeordet
-                    (p.Type != null && p.Type.Contains(normalizedSearchTerm)) || //Type indeholder søgeordet
-                    p.Category.Contains(normalizedSearchTerm)) //Kategori indeholder søgeordet
-                .ToList(); //Tilføjer de proukter der matcher søgeordet til en liste.
-        }
 
         public async Task<Products?> GetById(int productId)
         {
@@ -57,7 +65,6 @@ namespace DeepDive11.Persistence
         public async Task Update(Products products)
         {
             _context._products.Update(products);
-            await _context._products.AddAsync(products);
             await _context.SaveChangesAsync();
         }
 
@@ -77,18 +84,18 @@ namespace DeepDive11.Persistence
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Products>> GetAllAsync()
+        public async Task<List<Products>> GetAll()
         {
             return await _context._products
                 .Include(p => p.ProductCategory)
                 .ToListAsync();
         }
 
-        public async Task<List<Products>> SearchAsync(string searchTerm)
+        public List<Products> Search(string searchTerm)
         {
             var normalizedSearchTerm = searchTerm.Trim(); //normalizedSearchTerm gør søgningen mere præcis ved at fjerne unødvendige mellemrum i starten og slutningen af søgetermen. 
 
-            return await _context._products
+            return _context._products
                 .AsNoTracking()
                 .Include(p => p.ProductCategory)
                 .Where(p =>
@@ -96,7 +103,7 @@ namespace DeepDive11.Persistence
                     p.Brand.Contains(normalizedSearchTerm) ||
                     (p.Type != null && p.Type.Contains(normalizedSearchTerm)) ||
                     (p.ProductCategory != null && p.ProductCategory.Name.Contains(normalizedSearchTerm)))
-                .ToListAsync();
+                .ToList();
         }
 
         public async Task<Products?> GetByIdAsync(int productId)

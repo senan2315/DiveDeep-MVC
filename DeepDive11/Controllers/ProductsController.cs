@@ -26,12 +26,13 @@ namespace DeepDive11.Controllers
                 return Json(Array.Empty<object>());
             }
 
-            var productList = await _productsRepository.SearchAsync(query);
+            // Use the existing synchronous Search method
+            var productList = _productsRepository.Search(query);
 
             var products = productList.Select(product => new
             {
                 product.ProductId,
-                product.Brand,
+                product.Brand,      
                 product.Model,
                 product.Type,
                 Category = product.ProductCategory?.Name,
@@ -43,7 +44,7 @@ namespace DeepDive11.Controllers
 
         public async Task<IActionResult> Category(string id)
         {
-            var products = await _productsRepository.GetAllAsync();
+            var products = await _productsRepository.GetAll();
 
             products = products
                 .Where(p => p.ProductCategory != null && p.ProductCategory.Name == id)
@@ -56,7 +57,7 @@ namespace DeepDive11.Controllers
 
         public async Task<IActionResult> Rent(int id)
         {
-            var product = await _productsRepository.GetByIdAsync(id);
+            var product = await _productsRepository.GetById(id);
 
             if (product == null)
             {
