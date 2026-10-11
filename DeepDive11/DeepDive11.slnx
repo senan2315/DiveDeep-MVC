@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="../DeepDive11.Tests/DeepDive11.Tests.csproj" Id="38f4b23a-bd16-4a5d-8910-f19c861d000c" />
   <Project Path="../DeepDive11API/DeepDive11API.csproj" Id="4eb579c4-924c-4e3b-b057-b452f1d1cae5" />
   <Project Path="DeepDive11.csproj" />
 </Solution>
