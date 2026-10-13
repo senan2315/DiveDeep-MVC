@@ -1,12 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using DeepDive11.Persistence;
-using Microsoft.AspNetCore.Builder;
-using DeepDive11;
 using DeepDive11.Data;
-using Scalar.AspNetCore;
 using DeepDive11.Models;
 using Microsoft.AspNetCore.Identity;
-
+using Scalar.AspNetCore;
 
 namespace DeepDive11API
 {
@@ -15,32 +12,44 @@ namespace DeepDive11API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Database
             builder.Services.AddDbContext<DeepDiveContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            
-            builder.Services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<DeepDiveContext>(); // tilføjelse af Identity API Endpoints
 
+            // Identity med Bearer Token og roller
+            builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DeepDiveContext>();
+
+            // Repositories
             builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-            // Add services to the container.
 
-            builder.Services.AddCors(options => // tilføjelse af CORS policy
+            // CORS
+            builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowMobileApp", policy =>
                 {
-                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
+                    policy.WithOrigins("https://localhost:7240", "https://localhost:7039")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
                 });
             });
 
+            // Controllers og OpenAPI
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            // Authorization
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Development
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
@@ -49,14 +58,30 @@ namespace DeepDive11API
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowMobileApp"); // tilføjelse af CORS middleware
+            app.UseCors("AllowMobileApp");
 
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Controllers
             app.MapControllers();
 
-            app.MapIdentityApi<ApplicationUser>(); // tilføjelse af Identity API Endpoints
+            // Identity API Endpoints
+            app.MapIdentityApi<ApplicationUser>();
+
+            // Claims endpoint
+            app.MapGet("/claims", (HttpContext context) =>
+            {
+                var claims = context.User.Claims.Select(c => new
+                {
+                    c.Type,
+                    c.Value
+                });
+
+                return Results.Ok(claims);
+            })
+            .RequireAuthorization()
+            .RequireCors("AllowMobileApp");
 
             app.Run();
         }
