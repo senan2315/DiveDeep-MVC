@@ -4,11 +4,13 @@ using DeepDive11API.DTOs;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DeepDive11API.Contollers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] // man skal være logget ind for at få adgang til alle endpoints i denne controller
     public class BookingApiController : ControllerBase
     {
         private readonly IBookingRepository _bookingRepository;

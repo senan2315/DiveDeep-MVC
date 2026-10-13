@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using DeepDive11;
 using DeepDive11.Data;
 using Scalar.AspNetCore;
+using DeepDive11.Models;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace DeepDive11API
@@ -17,10 +19,20 @@ namespace DeepDive11API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            
+            builder.Services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<DeepDiveContext>(); // tilføjelse af Identity API Endpoints
 
             builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             // Add services to the container.
+
+            builder.Services.AddCors(options => // tilføjelse af CORS policy
+            {
+                options.AddPolicy("AllowMobileApp", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
+                });
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -37,10 +49,14 @@ namespace DeepDive11API
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowMobileApp"); // tilføjelse af CORS middleware
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            app.MapIdentityApi<ApplicationUser>(); // tilføjelse af Identity API Endpoints
 
             app.Run();
         }
